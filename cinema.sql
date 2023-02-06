@@ -12,8 +12,8 @@ pragma foreign_keys = true;
 -- insertions
 
 create table Utilisateur(
-	login_  varchar(20)		check(len(login_)>=6)    primary key,
-	mdp	    varchar(20)     check(len(login_)>=6),
+	login_  varchar(20)		check(length(login_)>=3)    primary key,
+	mdp	    varchar(20)     check(length(mdp)>=8)
 );
 
 insert into Utilisateur values
@@ -37,11 +37,11 @@ create table Noter(
     constraint pkNoter primary key (login_, id_film)
 );
 
-create view Film5Etoiles(
+create view Film5Etoiles as
     select id_film
     from Film
     where moyenne_note == 5.0
-);
+;
 
 create trigger EmpecheAjoutNote
 before insert on Noter
