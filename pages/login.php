@@ -3,7 +3,7 @@
 session_start();
 
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-  header("Location: index.php");
+  header("Location: ../index.php");
   exit;
 }
 
@@ -12,7 +12,7 @@ if (isset($_POST['submit'])) {
   $password = $_POST['password'];
 
   try {
-    $db = new PDO('sqlite:cinema.db');
+    $db = new PDO('sqlite:../cinema.db');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $query = "SELECT mdp FROM Utilisateur WHERE login_ = :username";
@@ -23,7 +23,8 @@ if (isset($_POST['submit'])) {
     // utiliser password_verify()
     if ($password == $hashed_password) {
       $_SESSION['logged_in'] = true;
-      header("Location: index.php");
+      $_SESSION['username'] = $username;
+      header("Location: ../index.php");
       exit;
     } else {
       $error = "Nom d'utilisateur ou mot de passe incorrect";
@@ -35,20 +36,19 @@ if (isset($_POST['submit'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="login.css">
+    <meta name="author" content="co-authored by enzo nulli, zoé marquis">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="icon" type="image/png" href="../images/logo.png"/>
     <title>Connexion</title>
 </head>
   <body>
     <header>
-      <nav>
-        <a href="index.php">Accueil</a>
-        <a href="login.php">Connexion</a>
-      </nav>
+      <?php include_once("./include/nav.php"); ?>
     </header>
     <main>
       <h1>Connexion</h1>
