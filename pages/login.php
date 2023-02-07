@@ -48,7 +48,7 @@ if (isset($_POST['submit'])) {
 </head>
   <body>
     <header>
-      <?php include_once("./include/nav.php"); ?>
+      <?php include_once("../include/nav.php"); ?>
     </header>
     <main>
       <h1>Connexion</h1>

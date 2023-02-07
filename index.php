@@ -10,7 +10,7 @@
 
 </head>
 <body>
-    <?php include_once("./include/nav.php"); ?>
+    <?php include_once("include/nav.php"); ?>
     <main>
     </main>
 </body>
