@@ -1,9 +1,5 @@
-.open cinema.db
-.mode column 
-.headers on
 pragma foreign_keys = true;
 
--- mdp en clair pour le moment
 
 -- entités
 -- associations
@@ -13,14 +9,8 @@ pragma foreign_keys = true;
 
 create table Utilisateur(
 	login_  varchar(20)		check(length(login_)>=3)    primary key,
-	mdp	    varchar(20)     check(length(mdp)>=8)
+	mdp	    varchar(40)
 );
-
-insert into Utilisateur values
-    ("TotorLeCastor", "CastorLeTotor"),
-    ("Zoé", "a1b2c3d4"),
-    ("Enzo", "azerty4321")
-;
 
 create table Film(
     id_film     integer     primary key     autoincrement,
@@ -33,7 +23,7 @@ create table Film(
 create table Noter(
     login_      varchar(20) references Utilisateur(login_),
     id_film     integer     references Film(id_film),     
-    note        int         check(note >=0 and note<=5),
+    note        integer         check(note >=0 and note<=5),
     constraint pkNoter primary key (login_, id_film)
 );
 
@@ -43,7 +33,9 @@ create view Film5Etoiles as
     where moyenne_note == 5.0
 ;
 
-create trigger EmpecheAjoutNote
+
+
+/* create trigger EmpecheAjoutNote
 before insert on Noter
 begin 
     -- si le film existe dans la db
@@ -60,7 +52,7 @@ begin
                     where new.id_film=id_film and new.login_ = login_)
             then raise(abort, 'Vous avez déjà noté ce film !')
         end;
-end;
+end; */
 
 create trigger AjouteNote
 after insert on Noter
