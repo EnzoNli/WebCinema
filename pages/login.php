@@ -41,7 +41,6 @@ if (isset($_POST['submit'])) {
 
 <body>
   <header>
-    <?php include_once("../include/nav.php"); ?>
   </header>
   <main>
     <h1>Connexion</h1>
@@ -50,7 +49,7 @@ if (isset($_POST['submit'])) {
     } ?>
     <form action="login.php" method="post">
       <input type="text" name="username" placeholder="Nom d'utilisateur">
-      <input type="password" name="password" placeholder="Mot de passe">
+      <input type="password" name="password" placeholder="Mot de passe" required>
       <button type="submit" name="submit">Se connecter</button>
     </form>
   </main>
