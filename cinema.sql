@@ -1,39 +1,86 @@
 pragma foreign_keys = true;
 
 
--- entités
--- associations
 -- view
 -- triggers
--- insertions
+-- transaction
 
+
+-- entités
 create table Utilisateur(
 	login_  varchar(20)		check(length(login_)>=3)    primary key,
 	mdp	    varchar(255)
 );
 
 create table Film(
-    id_film     integer     primary key     autoincrement,
+    api_movie_id     integer     primary key,
     titre       varchar(50) not null,
-    date_sortie date        not null,
-    moyenne_note        real         not null
-    -- affiche     varchar(20)		default(null)
+    date_sortie date        not null
 );
 
+create table Acteur(
+    api_acteur_id   integer     primary key,
+    nom_acteur      varchar(50)     not null
+);
+
+create table Genre(
+    api_genre_id    integer     primary key,
+    nom_genre       varchar(50)     not null
+);
+
+-- associations
 create table Noter(
     login_      varchar(20) references Utilisateur(login_),
-    id_film     integer     references Film(id_film),     
-    note        integer         check(note >=0 and note<=5),
+    api_movie_id     integer     references Film(api_movie_id),     
+    note        integer     check(note >=0 and note<=5)     not null,
+    commentaire varchar(5000),
     constraint pkNoter primary key (login_, id_film)
 );
 
-create view Film5Etoiles as
-    select id_film
-    from Film
-    where moyenne_note == 5.0
+create table Jouer(
+    api_acteur_id   integer     references Acteur(api_acteur_id),
+    api_movie_id     integer     references Film(api_movie_id),     
+    constraint pkJouer primary key (api_acteur_id, api_acteur_id)
+);
+
+create table Appartenir(
+    api_genre_id   integer     references Genre(api_genre_id),
+    api_movie_id     integer     references Film(api_movie_id),     
+    constraint pkJouer primary key (api_acteur_id, api_acteur_id)
+);
+
+-- views
+create view NoteMoyenne as 
+    select avg(note) as moyenne, api_movie_id
+    from Noter
+    group by api_movie_id
 ;
 
+create view MeilleureNotes as 
+    select api_movie_id, moyenne -- pour "écrire 4.7/5"
+    from NoteMoyenne
+    order by moyenne desc
+;
 
+create view NbNotes as 
+    select count(note) as nb, api_movie_id
+    from Noter
+    group by api_movie_id
+;
+
+create view PopulariteDecroissant as
+    select api_movie_id, nb -- pour écrire "30 avis"
+    from NbNotes
+    order by nb desc
+;
+
+create view PopulariteCroissant as
+    select api_movie_id, nb
+    from NbNotes
+    order by nb asc
+;
+
+-- date de sortie
 
 /* create trigger EmpecheAjoutNote
 before insert on Noter
@@ -53,6 +100,9 @@ begin
             then raise(abort, 'Vous avez déjà noté ce film !')
         end;
 end; */
+
+-- pour essayer d'inserer dasns noter, faut déjà avoir insérer dans film 
+-- donc tout ça c'est une transaction
 
 create trigger AjouteNote
 after insert on Noter
