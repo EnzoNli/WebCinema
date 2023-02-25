@@ -9,7 +9,7 @@ pragma foreign_keys = true;
 
 create table Utilisateur(
 	login_  varchar(20)		check(length(login_)>=3)    primary key,
-	mdp	    varchar(40)
+	mdp	    varchar(255)
 );
 
 create table Film(
