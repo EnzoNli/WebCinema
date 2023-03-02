@@ -20,13 +20,6 @@
         <?php include_once("include/slider.php"); ?>
     </main>
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.carousel').carousel({
-                indicators: true
-            });
-        });
-    </script>
 </body>
 
 </html>
