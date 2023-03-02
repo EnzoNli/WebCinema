@@ -33,10 +33,10 @@ if ($connexion->userIsConnected($_SESSION)) {
             <li><a href="/index.php">Accueil</a></li>
             <li><a href="#">Films notés</a></li>
             <li><a href="#">A l'affiche</a></li>
-            <li><a href="#">Recherche avancée</a></li>
+            <li><a href="pages/recherche_avancee.php">Recherche avancée</a></li>
         </div>
         <form action="#">
-            <input type="search" class="search-data" placeholder="Rechercher un film" required>
+            <input type="search" class="search-data" placeholder="Rechercher un film dans l'API" required>
             <button type="submit" class="fas fa-search"></button>
         </form>
         <div class="dropdown">
