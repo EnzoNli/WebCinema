@@ -113,3 +113,8 @@ begin
                                    where old.id_film = id_film) -- group by ?
                                 where old.id_film = id_film;
 end;
+
+
+INSERT INTO Genre (api_genre_id, nom_genre)
+VALUES (1, "Test"), 
+        (2, "CoucouTest2");
