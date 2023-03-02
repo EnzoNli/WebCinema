@@ -8,7 +8,6 @@ class ConnexionDB
     {
         $file = getcwd() . "/database/cinema.db";
         $file2 = getcwd() . "/database/cinema.sql";
-        echo $file;
         if (!file_exists($file)) {
             try {
                 $db = new PDO("sqlite:" . $file);
