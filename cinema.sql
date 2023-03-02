@@ -34,19 +34,19 @@ create table Noter(
     api_movie_id     integer     references Film(api_movie_id),     
     note        integer     check(note >=0 and note<=5)     not null,
     commentaire varchar(5000),
-    constraint pkNoter primary key (login_, id_film)
+    constraint pkNoter primary key (login_, api_movie_id)
 );
 
 create table Jouer(
     api_acteur_id   integer     references Acteur(api_acteur_id),
     api_movie_id     integer     references Film(api_movie_id),     
-    constraint pkJouer primary key (api_acteur_id, api_acteur_id)
+    constraint pkJouer primary key (api_acteur_id, api_movie_id)
 );
 
 create table Appartenir(
     api_genre_id   integer     references Genre(api_genre_id),
     api_movie_id     integer     references Film(api_movie_id),     
-    constraint pkJouer primary key (api_acteur_id, api_acteur_id)
+    constraint pkAppartenir primary key (api_genre_id, api_movie_id)
 );
 
 -- views
@@ -110,8 +110,8 @@ begin
     --- recalculer la moyenne
     update Film set moyenne_note = (select avg(note) 
                                    from Noter 
-                                   where old.id_film = id_film) -- group by ?
-                                where old.id_film = id_film;
+                                   where old.api_movie_id = api_movie_id) -- group by ?
+                                where old.api_movie_id = api_movie_id;
 end;
 
 
