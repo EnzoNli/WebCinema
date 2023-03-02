@@ -8,13 +8,25 @@
     <meta name="author" content="co-authored by enzo nulli, zoé marquis">
     <title>Le Cinéma des Zous</title>
     <link rel="icon" type="image/png" href="images/logo.png" />
-
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/jquery.js"></script>
 </head>
 
 <body>
-    <?php include_once("include/nav.php"); ?>
+    <header>
+        <?php include_once("include/nav.php"); ?>
+    </header>
     <main>
+        <?php include_once("include/slider.php"); ?>
     </main>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.carousel').carousel({
+                indicators: true
+            });
+        });
+    </script>
 </body>
 
 </html>
