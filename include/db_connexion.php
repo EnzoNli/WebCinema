@@ -6,11 +6,13 @@ class ConnexionDB
 
     function __construct()
     {
-        if (!file_exists(realpath($_SERVER['DOCUMENT_ROOT'] . "/cinema.db"))) {
+        $file = getcwd() . "/database/cinema.db";
+        $file2 = getcwd() . "/database/cinema.sql";
+        if (!file_exists($file)) {
             try {
-                $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/cinema.db');
+                $db = new PDO("sqlite:" . $file);
                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $db->exec(file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/cinema.sql"));
+                $db->exec(file_get_contents($file2));
 
                 $st = $db->prepare('INSERT INTO Utilisateur VALUES (?, ?)');
                 $st->execute(array("TotorLeCastor", password_hash("CastorLeTotor", PASSWORD_DEFAULT)));
@@ -22,7 +24,7 @@ class ConnexionDB
             }
         } else {
             try {
-                $db = new PDO('sqlite:' . $_SERVER['DOCUMENT_ROOT'] . '/cinema.db');
+                $db = new PDO("sqlite:" . $file);
                 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $this->db = $db;
             } catch (PDOException $e) {

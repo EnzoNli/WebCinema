@@ -34,6 +34,8 @@ function requeteCurl($url){
         } catch (\Throwable $th) {
             throw $th;
         }
+    }else{
+        throw new Exception("cURL désactivé");
     }
 }
 
@@ -76,7 +78,7 @@ function genererSliderCard(){
 <link rel="stylesheet" href="css/slider.css">
 
 <section class="slider"> 
-        <h2 class="slider-title">Actuelement au cinéma</h2>
+        <h2 class="slider-title">Populaire</h2>
         <button class="pre-btn"><img src="images/arrow.png" alt=""></button>
         <button class="nxt-btn"><img src="images/arrow.png" alt=""></button>
         <div class="slider-container">
