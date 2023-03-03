@@ -1,9 +1,9 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'] . "/include/db_connexion.php");
+require_once(getcwd() . "/../include/db_connexion.php");
 
 session_start();
-$connexion = new ConnexionDB();
+$connexion = new ConnexionDB("../database");
 
 if ($connexion->userIsConnected($_SESSION)) {
   header("Location: ../index.php");

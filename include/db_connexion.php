@@ -4,10 +4,10 @@ class ConnexionDB
 {
     private $db;
 
-    function __construct()
+    function __construct($chemin_vers_db)
     {
-        $file = getcwd() . "/database/cinema.db";
-        $file2 = getcwd() . "/database/cinema.sql";
+        $file = $chemin_vers_db . "/cinema.db";
+        $file2 = $chemin_vers_db . "/cinema.sql";
         if (!file_exists($file)) {
             try {
                 $db = new PDO("sqlite:" . $file);

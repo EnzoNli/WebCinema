@@ -2,7 +2,7 @@
 
 require_once("db_connexion.php");
 
-$connexion = new ConnexionDB();
+$connexion = new ConnexionDB(".");
 
 function select_genre() {
     global $connexion;
