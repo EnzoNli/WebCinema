@@ -1,4 +1,6 @@
 pragma foreign_keys = true;
+PRAGMA encoding="UTF-8";
+PRAGMA case_sensitive_like = true;
 
 
 -- view
