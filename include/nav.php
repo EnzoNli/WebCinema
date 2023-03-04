@@ -24,6 +24,7 @@ if ($connexion->userIsConnected($_SESSION)) {
 <link rel="stylesheet" href="css/nav.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
+
 <nav>
     <div class="logo">
         Le Cinéma des Zous
@@ -34,15 +35,28 @@ if ($connexion->userIsConnected($_SESSION)) {
             <li><a href="#">Films notés</a></li>
             <li><a href="pages/recherche_avancee.php">Recherche avancée</a></li>
         </div>
+
+
+
+
         <form action="#">
-            <input type="search" class="search-data" id="recherche" placeholder="Rechercher un film dans l'API" required>
-            <button type="submit" class="fas fa-search"></button>
+            <div id="res_recherche">
+                <input type="search" class="search-data" id="recherche" placeholder="Rechercher un film dans TMDB" autocomplete="off" required>
+                <div class="liste_recherche">
+                </div>
+            </div>
         </form>
-        <div class="dropdown">
-            <button class="dropbtn">
+
+
+
+
+
+
+        <div class="dropdown-perso">
+            <button class="dropbtn-perso">
                 <?php echo $username; ?> <i class="fa fa-caret-down"></i>
             </button>
-            <div class="dropdown-content">
+            <div class="dropdown-content-perso">
                 <a href="#">Profil</a>
                 <a href="?deco=1" id="deco">Se déconnecter</a>
             </div>
@@ -51,19 +65,17 @@ if ($connexion->userIsConnected($_SESSION)) {
         <div class="nav-items">
             <li style="color: white">Connectez vous pour accèder aux fonctionnalités du site</li>
         </div>
-        <div class="dropdown">
-            <button class="dropbtn">Invité <i class="fa fa-caret-down"></i></button>
-            <div class="dropdown-content">
+        <div class="dropdown-perso">
+            <button class="dropbtn-perso">Invité <i class="fa fa-caret-down"></i></button>
+            <div class="dropdown-content-perso">
                 <a href="pages/login.php">Connexion</a>
             </div>
         </div>
     <?php } ?>
 </nav>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
 <script>
-
-
     $(document).ready(function(){
         $('#recherche').keyup(function(){
             jQuery.ajax({
@@ -71,7 +83,7 @@ if ($connexion->userIsConnected($_SESSION)) {
                 url: "include/requeteAjaxJs.php",
                 data: {functionname: 'getRecherche', arguments: [$(this).val()]}
             }).done(function(reponse){
-                console.log(reponse);
+                $(".liste_recherche").html(reponse);
             });
         });
     });

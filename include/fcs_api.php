@@ -50,7 +50,7 @@ function getPopular(){
 
 function getRecherche($recherche){
     global $api_key;
-    return requeteCurl("https://api.themoviedb.org/3/search/movie?api_key=" . $api_key . "&language=fr-FR&query=" . $recherche . "&page=1&include_adult=false");
+    return requeteCurl("https://api.themoviedb.org/3/search/movie?api_key=" . $api_key . "&language=fr-FR&query=" . urlencode($recherche) . "&page=1&include_adult=false");
 }
 
 ?>

@@ -51,6 +51,7 @@ nav form{
   border: 1px solid rgba(155,155,155,0.2);
 }
 nav form .search-data{
+  min-width: 350px;
   width: 100%;
   height: 100%;
   padding: 0 10px;
@@ -73,12 +74,13 @@ nav form button:hover{
   background: #ff3d00;
 }
 
-.dropdown {
+.dropdown-perso {
   float: left;
   overflow: hidden;
+  z-index: 3;
 }
 
-.dropdown .dropbtn {
+.dropdown-perso .dropbtn-perso {
   font-size: 16px;
   border: none;
   outline: none;
@@ -87,11 +89,11 @@ nav form button:hover{
   background-color: inherit;
 }
 
-.navbar a:hover, .dropdown:hover .dropbtn {
+.navbar a:hover, .dropdown-perso:hover .dropbtn-perso {
   color: #e63600;
 }
 
-.dropdown-content {
+.dropdown-content-perso {
   display: none;
   right: 0px;
   position: absolute;
@@ -101,7 +103,7 @@ nav form button:hover{
   z-index: 1;
 }
 
-.dropdown-content a {
+.dropdown-content-perso a {
   float: none;
   color: white;
   padding: 12px 16px;
@@ -110,11 +112,11 @@ nav form button:hover{
   text-align: left;
 }
 
-.dropdown-content a:hover {
+.dropdown-content-perso a:hover {
   color: #ff3d00;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown-perso:hover .dropdown-content-perso {
   display: block;
 }
 
@@ -122,3 +124,30 @@ nav form button:hover{
   background-color: red;
   color: white;
 }
+
+
+
+
+
+.res_recherche {
+  position: relative;
+  display: inline-block;
+}
+
+.liste_recherche {
+  display: block;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 19.5%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.liste_recherche a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.liste_recherche a:hover {background-color: #f1f1f1}
