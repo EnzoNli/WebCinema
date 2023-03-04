@@ -15,19 +15,19 @@ $trier = "sans"; // à la fin
 function filtrer() {
 
     $debut = "2010"; // defautà check ?
-    $prep_debut =  '"' . $debut . '-01-01"';
+    $prep_debut =  $debut . '-01-01';
 
     $fin = "2024"; // defaut ?
-    $prep_fin = '"' . $fin . '-12-31"';
+    $prep_fin = $fin . '-12-31';
 
     $titre = "star";
-    $prep_titre = "'%$titre%'";
-    echo $prep_titre;
+    $prep_titre = "%$titre%";
+    print $prep_titre;
 
     $genre = "sans";
 
     $acteur = "";
-    $prep_acteur =  "'%$acteur%'";
+    $prep_acteur = "%$acteur%";
 
     $noteSup = "10"; // val défaut
     $noteInf = "0"; // val défaut
@@ -45,15 +45,15 @@ function filtrer() {
                 WHERE titre LIKE :titre'; // ESCAPE à ajouter
     }
     if (strcmp("sans", $genre)) { // genre
-        $sql .= ' INTERSECT ';
-        $sql .= 'SELECT api_movie_id
-                FROM Film NATURAL JOIN Genre
-                WHERE nom_genre = :genre';
+        $sql .= " INTERSECT ";
+        $sql .= "SELECT api_movie_id
+                FROM Film NATURAL JOIN Appartenir NATURAL JOIN Genre
+                WHERE nom_genre = :genre";
     }
     if (strcmp("", $acteur)) { // acteur
         $sql .= ' INTERSECT ';
         $sql .= 'SELECT api_movie_id
-                FROM Film NATURAL JOIN Acteur
+                FROM Film NATURAL JOIN Jouer NATURAL JOIN Acteur
                 WHERE nom_acteur LIKE :acteur'; // ESCAPE à ajouter
     }
 
@@ -63,7 +63,7 @@ function filtrer() {
     $st->bindParam(':debut', $prep_debut, PDO::PARAM_STR, 10);
     $st->bindParam(':fin', $prep_fin, PDO::PARAM_STR, 10);
     if (strcmp("", $titre)) {
-        $st->bindParam(':titre', $prep_titre, PDO::PARAM_STR, 10);
+        $st->bindValue(':titre', $prep_titre, PDO::PARAM_STR);
     }
     if (strcmp("sans", $genre)) {
         $st->bindParam(':genre', $genre, PDO::PARAM_STR);
