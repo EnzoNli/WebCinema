@@ -5,53 +5,64 @@ require_once("db_connexion.php");
 $connexion = new ConnexionDB("../database");
 
 // 1 filtrer
-
 // 2 trier
 
-// % pour pattern matching 
-
-// comment pouvoir réutiliser pour tous les filtres? select exists as ?
-function filter_titre($pm) { // pattern matching
-    global $connexion;
-    $sql = 'SELECT api_movie_id
-            FROM Film
-            WHERE titre LIKE \'%:pm%\''; // ESCAPE à ajouter
-    $st = $connexion->getDB()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    $st->execute(array(':pm' => $pm));
-    return $st->fetchAll();
-}
-
-function filtrer_genre($g) {
-    global $connexion;
-    $sql = 'SELECT api_movie_id
-            FROM Film NATURAL JOIN Genre
-            WHERE nom_genre = :nom_genre';
-    $st = $connexion->getDB()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    $st->execute(array(':nom_genre' => $g));
-    return $st->fetchAll();
-}
-
-// debut et fin sont des années 
-// -> transformer début en 1er janvier minuit 
-// -> transformer fin en 31 décembre 
-// comment sont rentrés les dates dans l'api ????
-function filtrer_annee($debut, $fin) {
-    global $connexion;
-    $sql = 'SELECT api_movie_id
-            FROM Film
-            WHERE date_sortie >= \':debut-01-01\' AND date_sortie<=\':fin-12-31\';';
-    $st = $connexion->getDB()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    $st->execute(array(':debut' => $debut, ':fin' => $fin));
-    return $st->fetchAll();
-}
-
-// verifier que l'annee correspondant à debut <= annee fin
+// verif fin < debut
 // sinon ??
+
+$trier = "sans"; // à la fin
+
+function filtrer() {
+
+    $debut = "2022"; // defautà check ?
+    $fin = "2023"; // defaut ?
+    $titre = "star";
+    $genre = "sans";
+    $acteur = "";
+    $noteSup = "10"; // val défaut
+    $noteInf = "0"; // val défaut
+
+
+    global $connexion;
+    $sql = 'SELECT api_movie_id
+            FROM Film
+            WHERE date_sortie >= \':debut-01-01\' AND date_sortie<=\':fin-12-31\''; // années
+
+    if (!strcmp("", $titre)) { // titre
+        $sql .= ' INTERSECT ';
+        $sql .= 'SELECT api_movie_id
+                FROM Film
+                WHERE titre LIKE \'%:titre%\''; // ESCAPE à ajouter
+    }
+    if (!strcmp("sans", $genre)) { // genre
+        $sql .= ' INTERSECT ';
+        $sql = 'SELECT api_movie_id
+                FROM Film NATURAL JOIN Genre
+                WHERE nom_genre = :nom_genre';
+    }
+    if (!strcmp("", $acteur)) { // acteur
+        $sql .= ' INTERSECT ';
+        $sql .= 'SELECT api_movie_id
+                FROM Film NATURAL JOIN Acteur
+                WHERE nom_acteur LIKE \'%:acteur%\''; // ESCAPE à ajouter
+    }
+
+    $st = $connexion->getDB()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+    $st->execute(array(':nom_genre' => $genre, ':titre' => $titre, ':debut' => $debut, ':fin' => $fin, ':acteur' => $acteur));
+    return $st->fetchAll();
+}
+
+
+
+
+
+
+
 
 // dans un autre fichier avec help pour afficher html
 
 function afficher_form() {
-    $chaine = '<form id="form" action="????.php" method="post">
+    $chaine = '<form id="form" action="" method="post">
     ';
     $chaine .= afficher_select_trier();
     $chaine .= '<input type="text" name="titre" id="titre" placeholder="Titre de film">
@@ -129,3 +140,7 @@ function afficher_select_annee($marqueur) { // réutiliser avec "debut" et "fin"
 }
 
 echo afficher_form();
+
+if (isset($_POST['submit'])) {
+    print_r(filtrer());
+}
