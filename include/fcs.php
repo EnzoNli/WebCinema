@@ -14,11 +14,19 @@ $trier = "sans"; // à la fin
 
 function filtrer() {
 
-    $debut = "2022"; // defautà check ?
-    $fin = "2023"; // defaut ?
-    $titre = "";
+    $debut = "2010"; // defautà check ?
+    $prep_debut =  '"' . $debut . '-01-01"';
+
+    $fin = "2024"; // defaut ?
+    $prep_fin = '"' . $fin . '-12-31"';
+
+    $titre = "star";
+    $prep_titre = "'%$titre%'";
+    echo $prep_titre;
+
     $genre = "sans";
     $acteur = "";
+    $prep_acteur = '%' . $acteur . '%';
     $noteSup = "10"; // val défaut
     $noteInf = "0"; // val défaut
 
@@ -26,44 +34,44 @@ function filtrer() {
     global $connexion;
     $sql = 'SELECT api_movie_id
             FROM Film
-            WHERE date_sortie >= \':debut-01-01\' AND date_sortie<=\':fin-12-31\''; // années
+            WHERE date_sortie >= date(:debut) AND date_sortie<= date(:fin)'; // années
 
-    if (!strcmp("", $titre)) { // titre
+    if (strcmp("", $titre)) { // titre
         $sql .= ' INTERSECT ';
         $sql .= 'SELECT api_movie_id
                 FROM Film
-                WHERE titre LIKE \'%:titre%\''; // ESCAPE à ajouter
+                WHERE titre LIKE :titre'; // ESCAPE à ajouter
     }
-    if (!strcmp("sans", $genre)) { // genre
+    if (strcmp("sans", $genre)) { // genre
         $sql .= ' INTERSECT ';
         $sql .= 'SELECT api_movie_id
                 FROM Film NATURAL JOIN Genre
                 WHERE nom_genre = :genre';
     }
-    if (!strcmp("", $acteur)) { // acteur
+    if (strcmp("", $acteur)) { // acteur
         $sql .= ' INTERSECT ';
         $sql .= 'SELECT api_movie_id
                 FROM Film NATURAL JOIN Acteur
-                WHERE nom_acteur LIKE \'%:acteur%\''; // ESCAPE à ajouter
+                WHERE nom_acteur LIKE :acteur'; // ESCAPE à ajouter
     }
 
-    echo $sql;
+    print $sql;
 
     $st = $connexion->getDB()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    $st->bindValue(':debut', $debut, PDO::PARAM_STR);
-    $st->bindValue(':fin', $fin, PDO::PARAM_STR);
-    if (!strcmp("", $titre)) {
-        $st->bindValue(':titre', $titre, PDO::PARAM_STR);
+    $st->bindParam(':debut', $prep_debut, PDO::PARAM_STR, 10);
+    $st->bindParam(':fin', $prep_fin, PDO::PARAM_STR, 10);
+    if (strcmp("", $titre)) {
+        $st->bindParam(':titre', $prep_titre, PDO::PARAM_STR, 10);
     }
-    if (!strcmp("sans", $genre)) {
-        $st->bindValue(':genre', $genre, PDO::PARAM_STR);
+    if (strcmp("sans", $genre)) {
+        $st->bindParam(':genre', $genre, PDO::PARAM_STR);
     }
-    if (!strcmp("", $acteur)) {
-        $st->bindValue(':acteur', $acteur, PDO::PARAM_STR);
+    if (strcmp("", $acteur)) {
+        $st->bindParam(':acteur', $prep_acteur, PDO::PARAM_STR);
     }
 
     $st->execute();
-    print_r($st->fetchAll());
+    var_dump($st->fetchAll());
 }
 
 
@@ -155,8 +163,4 @@ function afficher_select_annee($marqueur) { // réutiliser avec "debut" et "fin"
 
 echo afficher_form();
 
-if (isset($_POST['submit'])) {
-    $sql = 'SELECT * FROM Film;';
-    $st = $connexion->getDB()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    print_r($st->fetchAll());
-}
+filtrer();

@@ -15,9 +15,9 @@ create table Utilisateur(
 );
 
 create table Film(
-    api_movie_id     integer     primary key,
-    titre       varchar(50) not null,
-    date_sortie date        not null
+    api_movie_id     integer    primary key,
+    titre       varchar(50)     not null,
+    date_sortie date     not null
 );
 
 create table Acteur(
@@ -126,7 +126,7 @@ VALUES  (1, "EnzoLeDino"),
         (2, "KlouLeDino");
 
 INSERT INTO Film (api_movie_id, titre, date_sortie)
-VALUES  (1, "star wars", 2022-12-06),
-        (2, "pelouse", 2022-01-02),
-        (3, "danse avec les stars !", 2012-06-07);
+VALUES  (1, "star wars", date("2022-12-06")),
+        (2, "pelouse", date("2022-01-02")),
+        (3, "danse avec les stars !", date("2022-06-07"));
 
