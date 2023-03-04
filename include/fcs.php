@@ -25,8 +25,10 @@ function filtrer() {
     echo $prep_titre;
 
     $genre = "sans";
+
     $acteur = "";
-    $prep_acteur = '%' . $acteur . '%';
+    $prep_acteur =  "'%$acteur%'";
+
     $noteSup = "10"; // val défaut
     $noteInf = "0"; // val défaut
 
