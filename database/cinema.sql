@@ -118,5 +118,15 @@ end;
 
 
 INSERT INTO Genre (api_genre_id, nom_genre)
-VALUES (1, "Test"), 
-        (2, "CoucouTest2");
+VALUES  (1, "Genre1"), 
+        (2, "Genre2");
+
+INSERT INTO Acteur (api_acteur_id, nom_acteur)
+VALUES  (1, "EnzoLeDino"), 
+        (2, "KlouLeDino");
+
+INSERT INTO Film (api_movie_id, titre, date_sortie)
+VALUES  (1, "star wars", 2022-12-06),
+        (2, "pelouse", 2022-01-02),
+        (3, "danse avec les stars !", 2012-06-07);
+

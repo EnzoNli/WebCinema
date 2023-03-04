@@ -16,7 +16,7 @@ function filtrer() {
 
     $debut = "2022"; // defautà check ?
     $fin = "2023"; // defaut ?
-    $titre = "star";
+    $titre = "";
     $genre = "sans";
     $acteur = "";
     $noteSup = "10"; // val défaut
@@ -36,9 +36,9 @@ function filtrer() {
     }
     if (!strcmp("sans", $genre)) { // genre
         $sql .= ' INTERSECT ';
-        $sql = 'SELECT api_movie_id
+        $sql .= 'SELECT api_movie_id
                 FROM Film NATURAL JOIN Genre
-                WHERE nom_genre = :nom_genre';
+                WHERE nom_genre = :genre';
     }
     if (!strcmp("", $acteur)) { // acteur
         $sql .= ' INTERSECT ';
@@ -47,9 +47,23 @@ function filtrer() {
                 WHERE nom_acteur LIKE \'%:acteur%\''; // ESCAPE à ajouter
     }
 
+    echo $sql;
+
     $st = $connexion->getDB()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    $st->execute(array(':nom_genre' => $genre, ':titre' => $titre, ':debut' => $debut, ':fin' => $fin, ':acteur' => $acteur));
-    return $st->fetchAll();
+    $st->bindValue(':debut', $debut, PDO::PARAM_STR);
+    $st->bindValue(':fin', $fin, PDO::PARAM_STR);
+    if (!strcmp("", $titre)) {
+        $st->bindValue(':titre', $titre, PDO::PARAM_STR);
+    }
+    if (!strcmp("sans", $genre)) {
+        $st->bindValue(':genre', $genre, PDO::PARAM_STR);
+    }
+    if (!strcmp("", $acteur)) {
+        $st->bindValue(':acteur', $acteur, PDO::PARAM_STR);
+    }
+
+    $st->execute();
+    print_r($st->fetchAll());
 }
 
 
@@ -142,5 +156,7 @@ function afficher_select_annee($marqueur) { // réutiliser avec "debut" et "fin"
 echo afficher_form();
 
 if (isset($_POST['submit'])) {
-    print_r(filtrer());
+    $sql = 'SELECT * FROM Film;';
+    $st = $connexion->getDB()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+    print_r($st->fetchAll());
 }
