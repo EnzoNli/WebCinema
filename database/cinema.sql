@@ -70,12 +70,14 @@ create view NbNotes as
     group by api_movie_id
 ;
 
+-- utile ?
 create view PopulariteDecroissant as
     select api_movie_id, nb -- pour écrire "30 avis"
     from NbNotes
     order by nb desc
 ;
 
+-- utile ?
 create view PopulariteCroissant as
     select api_movie_id, nb
     from NbNotes
@@ -106,15 +108,49 @@ end; */
 -- pour essayer d'inserer dasns noter, faut déjà avoir insérer dans film 
 -- donc tout ça c'est une transaction
 
-create trigger AjouteNote
-after insert on Noter
-begin 
-    --- recalculer la moyenne
-    update Film set moyenne_note = (select avg(note) 
-                                   from Noter 
-                                   where old.api_movie_id = api_movie_id) -- group by ?
-                                where old.api_movie_id = api_movie_id;
-end;
+
+create table Film(
+    api_movie_id     integer    primary key,
+    titre       varchar(50)     not null,
+    date_sortie date     not null
+
+BEGIN TRANSACTION;
+    IF NOT EXISTS(SELECT api_movie_id FROM Film WHERE api_movie_id = :movie_key)
+        BEGIN
+            INSERT INTO Film (api_movie_id, titre, date_sortie) 
+            VALUES (:movie_key, :titre_film, :date_sortie)
+
+            -- pour chaque genre
+            IF NOT EXISTS(SELECT api_genre_id FROM Genre WHERE api_genre_id = :genre_key)
+                BEGIN
+                    INSERT INTO Genre (api_genre_id, nom_genre) 
+                    VALUES (:genre_key, :nom_genre)
+                END
+
+            INSERT INTO Appartenir (api_genre_id, api_movie_id)
+            VALUES (:genre_key, :movie_key)
+            -- fin pour chaque genre
+
+            -- pour chaque acteur
+            IF NOT EXISTS(SELECT api_acteur_id FROM Acteur WHERE api_acteur_id = :acteur_key)
+                BEGIN
+                    INSERT INTO Acteur (api_acteur_id, nom_acteur) 
+                    VALUES (:acteur_key, :nom_acteur)
+                END
+
+            INSERT INTO Jouer (api_acteur_id, api_movie_id) 
+            VALUES (:acteur_key,:movie_key)
+            -- fin pour chaque acteur
+        END
+
+    -- insérer notes
+    IF NOT EXISTS (SELECT * FROM Noter WHERE api_movie_id = :movie_key AND login_ = :login_)
+        BEGIN 
+            INSERT INTO Noter (login_, api_movie_id, note, commentaire)
+            VALUES (:login_, :api_movie_id, :note, :commentaire)
+        END
+
+COMMIT;
 
 
 INSERT INTO Genre (api_genre_id, nom_genre)
