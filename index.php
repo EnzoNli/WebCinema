@@ -1,3 +1,9 @@
+<?php
+    include_once("include/nav.php");
+    $nav = new Navbar("");
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -14,7 +20,7 @@
 
 <body>
     <header>
-        <?php include_once("include/nav.php"); ?>
+        <?php $nav->afficheNavbar(); ?>
     </header>
     <main>
         <?php include_once("include/slider.php"); ?>

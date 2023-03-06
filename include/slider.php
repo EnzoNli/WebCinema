@@ -12,7 +12,7 @@ function genererSliderCard(){
         echo "<div class=\"slider-image\">";
         echo "<span class=\"api_note\">" . $movie['vote_average'] . "<img src=\"images/etoile.png\" class=\"etoile\" alt=\"\"></span>";
         echo "<img src=\"" . getCheminVersAffiche(3, $movie['poster_path']) . "\" class=\"affiche\" alt=\"\">";
-        echo "<button class=\"slider-btn\">voir</button>";
+        echo "<a href=\"pages/film.php?id_movie=" . $movie['id'] . "\"><button class=\"slider-btn\">voir</button></a>";
         echo "</div>";
         echo "<div class=\"slider-info\">";
         echo "<h2 class=\"titre_film\">" . $movie['title'] . "</h2>";
@@ -30,7 +30,7 @@ function genererSliderCard(){
 
 <section class="slider">
         <div id="background">
-            <h2 class="slider-title">Populaire</h2>
+            <h2 class="slider-title">Populaire (API)</h2>
             <div class="slider-container">
                 <button class="pre-btn"><img src="images/arrow.png" alt=""></button>
                 <button class="nxt-btn"><img src="images/arrow.png" alt=""></button>
