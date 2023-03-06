@@ -12,8 +12,10 @@ switch($_POST["functionname"]){
         }else{
             foreach($resp['results'] as $movie){
                 $renvoi .= "<a href=\"#\">";
-                $renvoi .= $movie['title'];
-                $renvoi .= "</a>";
+                $renvoi .= "<div class=\"affiche-res\">";
+                $renvoi .= "<img class=\"image-res\" src=\"" . getCheminVersAffiche(1, $movie['poster_path']) . "\" alt=\"\">";
+                $renvoi .= "<h2 class=\"titre-res\">" . $movie['title'] . "</h2>";
+                $renvoi .= "</div></a>";
             }
             echo $renvoi;
         }
