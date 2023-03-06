@@ -2,6 +2,12 @@
 
 $api_key = "99d8800f8d0f8aea34740a64e8617a2a";
 
+function getCheminVersAffiche($size, $poster_path){
+    $conf = json_decode(getConfig(), true);
+    return $conf['images']['base_url'] . $conf['images']['poster_sizes'][$size] . $poster_path;
+}
+
+
 function requeteCurl($url){
     if(extension_loaded("curl")){
         $ch = curl_init();
@@ -51,6 +57,11 @@ function getPopular(){
 function getRecherche($recherche){
     global $api_key;
     return requeteCurl("https://api.themoviedb.org/3/search/movie?api_key=" . $api_key . "&language=fr-FR&query=" . urlencode($recherche) . "&page=1&include_adult=false");
+}
+
+function getMovie($id_movie){
+    global $api_key;
+    return requeteCurl("https://api.themoviedb.org/3/movie/" . $id_movie . "?api_key=" . $api_key . "&language=fr-FR");
 }
 
 ?>

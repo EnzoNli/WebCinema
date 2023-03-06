@@ -11,7 +11,7 @@ function genererSliderCard(){
         echo "<div class=\"slider-card\">";
         echo "<div class=\"slider-image\">";
         echo "<span class=\"api_note\">" . $movie['vote_average'] . "<img src=\"images/etoile.png\" class=\"etoile\" alt=\"\"></span>";
-        echo "<img src=\"" .  $conf['images']['base_url'] . $conf['images']['poster_sizes'][3] . $movie['poster_path'] . "\" class=\"affiche\" alt=\"\">";
+        echo "<img src=\"" . getCheminVersAffiche(3, $movie['poster_path']) . "\" class=\"affiche\" alt=\"\">";
         echo "<button class=\"slider-btn\">voir</button>";
         echo "</div>";
         echo "<div class=\"slider-info\">";

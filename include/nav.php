@@ -36,9 +36,6 @@ if ($connexion->userIsConnected($_SESSION)) {
             <li><a href="pages/recherche_avancee.php">Recherche avancée</a></li>
         </div>
 
-
-
-
         <form action="#">
             <div id="res_recherche">
                 <input type="search" class="search-data" id="recherche" placeholder="Rechercher un film dans TMDB" autocomplete="off" required>
@@ -46,11 +43,6 @@ if ($connexion->userIsConnected($_SESSION)) {
                 </div>
             </div>
         </form>
-
-
-
-
-
 
         <div class="dropdown-perso">
             <button class="dropbtn-perso">
@@ -61,6 +53,7 @@ if ($connexion->userIsConnected($_SESSION)) {
                 <a href="?deco=1" id="deco">Se déconnecter</a>
             </div>
         </div>
+
     <?php } else { ?>
         <div class="nav-items">
             <li style="color: white">Connectez vous pour accèder aux fonctionnalités du site</li>
@@ -72,6 +65,7 @@ if ($connexion->userIsConnected($_SESSION)) {
             </div>
         </div>
     <?php } ?>
+
 </nav>
 
 
