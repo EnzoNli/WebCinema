@@ -10,74 +10,77 @@ $connexion = new ConnexionDB("../database");
 function noter_un_film() {
     global $connexion;
 
-    $genres = array();
-    $acteurs = array();
+    $movie_key = 34;
+    $titre_film = "Kaloo dans l'espace";
+    $date_sortie = '2021-12-01';
+    $login_ = "Zoze";
+    $note = 8;
+    $commentaire = 'Olak a trouvé ça trop beau !';
+    $genres = array(array("id" => 333, "nom" => "OlakEtKlou"), array("id" => 404, "nom" => "espace"));
+    $acteurs = array(array("id" => 626, "nom" => "Olak le dino"), array("id" => 404, "nom" => "Kaloo le klou"));
 
     try {
         $connexion->getDB()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $connexion->getDB()->beginTransaction();
 
-        $sql = 'IF NOT EXISTS(SELECT api_movie_id FROM Film WHERE api_movie_id = :movie_key)
-                BEGIN
-                    INSERT INTO Film (api_movie_id, titre, date_sortie) 
-                    VALUES (:movie_key, :titre_film, :date_sortie) 
-                ';
-
-        foreach ($genres as $key => $value) {
-            $sql .= 'IF NOT EXISTS(SELECT api_genre_id FROM Genre WHERE api_genre_id = :genre_key' . $key . ')
-                        BEGIN
-                            INSERT INTO Genre (api_genre_id, nom_genre) 
-                            VALUES (:genre_key' . $key . ', :nom_genre' . $key . ')
-                        END
-
-                    INSERT INTO Appartenir (api_genre_id, api_movie_id)
-                    VALUES (:genre_key' . $key . ', :movie_key)
-                    ';
-        }
-
-        foreach ($acteurs as $key => $value) {
-            $sql .= 'IF NOT EXISTS(SELECT api_acteur_id FROM Acteur WHERE api_acteur_id = :acteur_key' . $key . ')
-                        BEGIN
-                            INSERT INTO Acteur (api_acteur_id, nom_acteur) 
-                            VALUES (:acteur_key' . $key . ', :nom_acteur' . $key . ')
-                        END
-                    INSERT INTO Jouer (api_acteur_id, api_movie_id) 
-                    VALUES (:acteur_key' . $key . ',:movie_key)
-                    ';
-        }
-
-        $sql .= 'END
-                IF NOT EXISTS (SELECT * FROM Noter WHERE api_movie_id = :movie_key AND login_ = :login_)
-                BEGIN 
-                    INSERT INTO Noter (login_, api_movie_id, note, commentaire)
-                    VALUES (:login_, :movie_key, :note, :commentaire)
-                END
+        $sql = 'INSERT INTO Film (api_movie_id, titre, date_sortie) 
+                SELECT :movie_key, :titre_film, date(:date_sortie)
+                WHERE NOT EXISTS (SELECT 1 FROM Film WHERE api_movie_id = :movie_key );
                 ';
 
         $st = $connexion->getDB()->prepare($sql);
-
         $st->bindParam(':movie_key', $movie_key, PDO::PARAM_INT);
         $st->bindParam(':titre_film', $titre_film, PDO::PARAM_STR);
         $st->bindParam(':date_sortie', $date_sortie, PDO::PARAM_STR, 10);
-        $st->bindParam(':login_', $login_, PDO::PARAM_STR);
-        $st->bindParam(':note', $note, PDO::PARAM_INT);
-        $st->bindParam(':commentaire', $commentaire, PDO::PARAM_STR);
+        $st->execute();
 
         foreach ($genres as $key => $value) {
+            $sql = 'INSERT INTO Genre (api_genre_id, nom_genre) 
+                    SELECT :genre_key' . $key . ', :nom_genre' . $key . '
+                    WHERE NOT EXISTS (SELECT 1 FROM Genre WHERE api_genre_id = :genre_key' . $key . ');
+            
+                    INSERT INTO Appartenir (api_genre_id, api_movie_id) 
+                    SELECT :genre_key' . $key . ', :movie_key
+                    WHERE NOT EXISTS (SELECT 1 FROM Appartenir WHERE api_movie_id = :movie_key 
+                        AND api_genre_id = :genre_key' . $key . ');';
+
+            $st = $connexion->getDB()->prepare($sql);
             $genre_id = $value['id'];
             $nom_genre = $value['nom'];
             $st->bindParam(':genre_key' . $key, $genre_id, PDO::PARAM_INT);
             $st->bindParam(':nom_genre' . $key, $nom_genre, PDO::PARAM_STR);
+            $st->execute();
         }
 
         foreach ($acteurs as $key => $value) {
+            $sql = 'INSERT INTO Acteur (api_acteur_id, nom_acteur) 
+                    SELECT :acteur_key' . $key . ', :nom_acteur' . $key . '
+                    WHERE NOT EXISTS (SELECT 1 FROM Acteur WHERE api_acteur_id = :acteur_key' . $key . ');
+                  
+                    INSERT INTO Jouer (api_acteur_id, api_movie_id) 
+                    SELECT :acteur_key' . $key . ', :movie_key
+                    WHERE NOT EXISTS (SELECT 1 FROM Jouer WHERE api_movie_id = :movie_key
+                        AND api_acteur_id = :acteur_key' . $key . ');';
+
+            $st = $connexion->getDB()->prepare($sql);
             $acteur_id = $value['id'];
             $nom_acteur = $value['nom'];
             $st->bindParam(':acteur_key' . $key, $acteur_id, PDO::PARAM_INT);
             $st->bindParam(':nom_acteur' . $key, $nom_acteur, PDO::PARAM_STR);
+            $st->execute();
         }
 
+        $sql = 'INSERT INTO Noter (login_, api_movie_id, note, commentaire) 
+                SELECT :login_ , :movie_key , :note , :commentaire
+                WHERE NOT EXISTS (SELECT 1 FROM Noter WHERE api_movie_id = :movie_key AND login_ = :login_ );
+                ';
+
+        $st = $connexion->getDB()->prepare($sql);
+        $st->bindParam(':login_', $login_, PDO::PARAM_STR);
+        $st->bindParam(':note', $note, PDO::PARAM_INT);
+        $st->bindParam(':commentaire', $commentaire, PDO::PARAM_STR);
         $st->execute();
+
         $connexion->getDB()->commit();
     } catch (Exception $e) {
         $connexion->getDB()->rollBack();
@@ -275,4 +278,6 @@ function afficher_select_annee($marqueur) { // réutiliser avec "debut" et "fin"
 }
 
 echo afficher_form();
-filtrer();
+//filtrer();
+
+noter_un_film();
