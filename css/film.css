@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@600;700&display=swap');
+
+body {
+    background-color: #020d18;
+    overflow-x: hidden;
+}
+
+#bg-film {
+    position: relative;
+    max-height: 50vh;
+    width: 100%;
+    object-fit: cover;
+}
+
+#poster-film {
+    position: absolute;
+    top: 12%;
+    left: 30px;
+    max-width: 400px;
+    border-radius: 5px;
+}
+
+#title-film{
+    font-family: 'Dosis', sans-serif;
+    position: relative;
+    left: 24vw;
+    font-size: 5vh;
+    color: white;
+}
