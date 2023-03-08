@@ -31,9 +31,10 @@ $infos_film = json_decode(getMovie($_GET['id_movie']), true);
     </header>
 
     <main>
-        <img src="<?php echo getCheminVersAffiche(6, $infos_film['backdrop_path']) ?>" alt="" id="bg-film">
-        <img src="<?php echo getCheminVersAffiche(4, $infos_film['poster_path']) ?>" alt="" id="poster-film">
-        <span><h2 id="title-film"><?php echo $infos_film['title'] ?></h2><h4><?php echo substr(getCheminVersAffiche(4, $infos_film['release_date']), 0, 4) ?></h4></span>
+        <img src="<?php echo getCheminVersAfficheOuBackdrop(6, $infos_film['backdrop_path'], basename(__DIR__)) ?>" alt="" id="bg-film">
+        <img src="<?php echo getCheminVersAfficheOuBackdrop(4, $infos_film['poster_path'], basename(__DIR__)) ?>" alt="" id="poster-film">
+        <h2 id="title-film"><?php echo $infos_film['title'] ?> <span id="date"><?php echo substr($infos_film['release_date'], 0, 4)?><span></h2>
+        <p id="genre-film"><?php echo genereStringGenres($infos_film['genres']) ?></p>
     </main>
 
 </body>

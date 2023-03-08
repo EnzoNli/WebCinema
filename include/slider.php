@@ -3,7 +3,7 @@
 include_once("fcs_api.php");
 
 
-function genererSliderCard(){
+function genererSliderCard($chemin){
     $resp = getPopular();
     $infos = json_decode($resp, true);
     $conf = json_decode(getConfig(), true);
@@ -11,12 +11,11 @@ function genererSliderCard(){
         echo "<div class=\"slider-card\">";
         echo "<div class=\"slider-image\">";
         echo "<span class=\"api_note\">" . $movie['vote_average'] . "<img src=\"images/etoile.png\" class=\"etoile\" alt=\"\"></span>";
-        echo "<img src=\"" . getCheminVersAffiche(3, $movie['poster_path']) . "\" class=\"affiche\" alt=\"\">";
+        echo "<img src=\"" . getCheminVersAfficheOuBackdrop(3, $movie['poster_path'], $chemin) . "\" class=\"affiche\" alt=\"\">";
         echo "<a href=\"pages/film.php?id_movie=" . $movie['id'] . "\"><button class=\"slider-btn\">voir</button></a>";
         echo "</div>";
         echo "<div class=\"slider-info\">";
         echo "<h2 class=\"titre_film\">" . $movie['title'] . "</h2>";
-        echo "<p class=\"genre_film\">Thriller</p>";
         echo "</div>";
         echo "</div>";
     }
@@ -34,7 +33,7 @@ function genererSliderCard(){
             <div class="slider-container">
                 <button class="pre-btn"><img src="images/arrow.png" alt=""></button>
                 <button class="nxt-btn"><img src="images/arrow.png" alt=""></button>
-                <?php genererSliderCard(); ?>
+                <?php genererSliderCard(basename(__DIR__)); ?>
             </div>
         </div>
 </section>

@@ -20,6 +20,7 @@
 
 <body>
     <header>
+        
         <?php $nav->afficheNavbar(); ?>
     </header>
     <main>

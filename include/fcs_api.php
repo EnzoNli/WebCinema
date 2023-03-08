@@ -2,7 +2,37 @@
 
 $api_key = "99d8800f8d0f8aea34740a64e8617a2a";
 
-function getCheminVersAffiche($size, $poster_path){
+function genereStringGenres($tab_genre){
+    $count = count($tab_genre);
+    $res = "";
+    foreach($tab_genre as $genre){
+        if (--$count <= 0) {
+            $res .= $genre['name'];
+            break;
+        }
+        $res .= $genre['name'] . ", ";
+    }
+
+    return $res;
+}
+
+function getCheminVersAfficheOuBackdrop($size, $poster_path, $chemin){
+    if($poster_path == null){
+        if($chemin == "pages"){
+            if($size != 6){
+                return "../images/noimageaffiche.png";
+            }else{
+                return "../images/noimagebackdrop.png";
+            }
+        }else{
+            if($size != 6){
+                return "images/noimageaffiche.png";
+            }else{
+                return "images/noimagebackdrop.png";
+            }
+            
+        }
+    }
     $conf = json_decode(getConfig(), true);
     return $conf['images']['base_url'] . $conf['images']['poster_sizes'][$size] . $poster_path;
 }

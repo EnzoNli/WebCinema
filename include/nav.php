@@ -99,7 +99,7 @@ class Navbar{
                     jQuery.ajax({
                         type: \"POST\",
                         url: \"" . $remplacement1 . "include/requeteAjaxJs.php\",
-                        data: {functionname: 'getRecherche', arguments: [$(this).val()]}
+                        data: {functionname: 'getRecherche', arguments: [$(this).val(), \"" . $this->chemin_actu ."\", \"" . $this->chemin_actu ."\"]}
                     }).done(function(reponse){
                         $(\".liste_recherche\").html(reponse);
                     });
