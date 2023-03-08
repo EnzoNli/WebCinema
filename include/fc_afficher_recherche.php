@@ -4,17 +4,20 @@ include_once("fcs_api.php");
 include_once("fcs_pour_page_film.php");
 
 function afficher_note($note, $bdOuApi) {
+    $nb_etoiles = floor($note);
     $ch = '<div class="boite_note">
     ';
-    $ch .= '<a>Note de ' . $bdOuApi . '</a>
+    $ch .= '<p class="texte_note">Note de ' . $bdOuApi . ' : <span>
     ';
-    $ch .= '<div class="etoiles">
-        ';
-    for ($i = 0; $i < 10; $i++) {
-        $ch .= '<div class="image_etoile"></div>
+    for ($i = 0; $i < $nb_etoiles; $i++) {
+        $ch .= '<img class="etoile" src="../images/etoile.png" alt="" class="image_etoile"></img>
         ';
     }
-    $ch .= '<div class="note">' . $note . '</div>
+    for ($i = 0; $i < 10 - $nb_etoiles; $i++){
+        $ch .= '<img class="etoile" src="../images/etoilevide.png" alt="" class="image_etoilevide"></img>
+        ';
+    }
+    $ch .= '</span></p></div>
     ';
     return $ch;
 }
@@ -130,4 +133,3 @@ if (isset($_POST['submit'])) {
 }
 */
 
-echo afficher_un_film(315162);

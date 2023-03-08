@@ -43,3 +43,20 @@ body {
     color: #949494;
     max-width: 60vw;
 }
+
+.boite_note{
+    color: white;
+    position: absolute;
+    left: 70vw;
+    top: 8vh;
+}
+
+.etoile {
+    max-height: 2vw;
+    width: auto;
+}
+
+.texte_note{
+    font-family: 'Dosis', sans-serif;
+    font-size: 3em;
+}

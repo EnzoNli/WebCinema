@@ -105,7 +105,7 @@ function getMoyenne($movie_key) {
     global $connexion;
     $st = $connexion->getDB()->prepare('SELECT avg(note) as moyenne FROM Noter WHERE api_movie_id = ? ;');
     $st->execute(array($movie_key));
-    return $st->fetch(PDO::FETCH_ASSOC);
+    return $st->fetch(PDO::FETCH_ASSOC)['moyenne'];
 }
 
 function getCommentaires($movie_key) {
@@ -115,5 +115,3 @@ function getCommentaires($movie_key) {
     return $st->fetch(PDO::FETCH_ASSOC);
 }
 
-var_dump(getMoyenne(34));
-var_dump(getCommentaires(34));
