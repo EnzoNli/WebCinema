@@ -6,7 +6,7 @@ include_once("fcs_pour_page_film.php");
 setlocale(LC_TIME, 'fr_FR.UTF-8', 'fra');
 
 function afficher_note($note, $bdOuApi) {
-    $nb_etoiles = floor(($note/2));
+    $nb_etoiles = floor(($note));
     $ch = '<div class="boite_note">
     ';
     $ch .= '<p class="texte_note">Note de ' . $bdOuApi . ' : <span>
@@ -15,11 +15,22 @@ function afficher_note($note, $bdOuApi) {
         $ch .= '<img class="etoile" src="../images/etoile.png" alt="" class="image_etoile"></img>
         ';
     }
-    for ($i = 0; $i < 5 - $nb_etoiles; $i++){
+    for ($i = 0; $i < 5 - $nb_etoiles; $i++) {
         $ch .= '<img class="etoile" src="../images/etoilevide.png" alt="" class="image_etoilevide"></img>
         ';
     }
-    $ch .= ' ' . $note/2;
+    $ch .= ' ' . $note;
+    $ch .= '</span></p></div>
+    ';
+    return $ch;
+}
+
+function afficher_pas_note($note, $bdOuApi) {
+    $ch = '<div class="boite_note">
+    ';
+    $ch .= '<p class="texte_note">Note de ' . $bdOuApi . ' : <span>
+    ';
+    $ch .= ' ' . $note;
     $ch .= '</span></p></div>
     ';
     return $ch;
@@ -41,16 +52,6 @@ function afficher_un_film($movie_key) {
     $genres = $film['genres'];
     // synopsis
     $synopsis = $film['overview'];
-    // NOTE API
-    if ($film['vote_count'])
-        $note_api = $film['vote_average'];
-    else
-        $note_api = "--";
-    // NOTE BD
-    if (boolFilmExiste($movie_key))
-        $note_db = getMoyenne($movie_key)['moyenne'];
-    else
-        $note_db = "--";
 
     $ch = '<div class="unFilm">
     ';
@@ -113,8 +114,24 @@ function afficher_un_film($movie_key) {
     // NOTES
     $ch .= '<div class="notes">
                 ';
-    $ch .= afficher_note($note_api, "l'API");
-    $ch .= afficher_note($note_db, "la base des Zous");
+
+    // NOTE API
+    if ($film['vote_count']) {
+        $note_api = $film['vote_average'];
+        $ch .= afficher_note($note_api, "l'API");
+    } else {
+        $note_api = "--";
+        $ch .= afficher_pas_note($note_api, "l'API");
+    }
+    // NOTE BD
+    if (boolFilmExiste($movie_key)) {
+        $note_db = getMoyenne($movie_key);
+        $ch .= afficher_note($note_db, "la base des Zous");
+    } else {
+        $note_db = "--";
+        $ch .= afficher_pas_note($note_db, "la base des Zous");
+    }
+
     $ch .= '</div>
     ';
 
@@ -140,15 +157,3 @@ function afficher_liste($tableau) { // nombre de résultats trouvés
     $ch .= '</ul>';
     return $ch;
 }
-
-/*
-// afficher_entete();
-// echo afficher_form();
-if (isset($_POST['submit'])) {
-    $liste = filtrer_trier();
-    afficher_liste($liste);
-    // gérer pagination
-}
-*/
-
-echo afficher_un_film(315162);
