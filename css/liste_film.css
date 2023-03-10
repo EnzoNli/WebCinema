@@ -1,0 +1,47 @@
+.unFilm {
+    margin-left: 10%;
+    margin-right : 10%;
+}
+
+.row {
+    display: flex;
+}
+  
+.gauche {
+    flex: 30%;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+img {
+    display: flex;
+    justify-content: center;
+}
+
+.droite {
+    flex: 70%;
+    padding: 5px;
+}
+
+.description {
+    position: relative;
+    margin-bottom: 5vh;
+}
+
+.synopsis {
+    position: relative;
+    /*background-color: blue;*/
+}
+
+.notes {
+    display : flow;
+    margin-bottom : 5%;
+    display: flex;
+    justify-content: center;
+}
+
+.boite_note{
+    margin-left: 8%;
+    margin-right:8%;
+}

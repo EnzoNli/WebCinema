@@ -3,31 +3,36 @@
 include_once("fcs_api.php");
 include_once("fcs_pour_page_film.php");
 
+setlocale(LC_TIME, 'fr_FR.UTF-8', 'fra');
+
 function afficher_note($note, $bdOuApi) {
+    $nb_etoiles = floor($note);
     $ch = '<div class="boite_note">
     ';
-    $ch .= '<a>Note de ' . $bdOuApi . '</a>
+    $ch .= '<p class="texte_note">Note de ' . $bdOuApi . ' : <span>
     ';
-    $ch .= '<div class="etoiles">
-        ';
-    for ($i = 0; $i < 10; $i++) {
-        $ch .= '<div class="image_etoile"></div>
+    for ($i = 0; $i < $nb_etoiles; $i++) {
+        $ch .= '<img class="etoile" src="../images/etoile.png" alt="" class="image_etoile"></img>
         ';
     }
-    $ch .= '<div class="note">' . $note . '</div>
+    for ($i = 0; $i < 5 - $nb_etoiles; $i++) {
+        $ch .= '<img class="etoile" src="../images/etoilevide.png" alt="" class="image_etoilevide"></img>
+        ';
+    }
+    $ch .= ' ' . $note / 2;
+    $ch .= '</span></p></div>
     ';
     return $ch;
 }
 
 function afficher_un_film($movie_key) {
     $film = json_decode(getMovie($movie_key), true);
-    print_r($film);
     // image
     $img = getCheminVersAfficheOuBackdrop(4, $film['poster_path'], "include");
     // titre_fr
     $titre = $film['title'];
     // date de sortie -> en mode fr
-    $date = $film['release_date']; // à transformer en 16 décembre 2021...
+    $date = $film['release_date']; // à transformer en 16 décembre 2021..., si null ?
     // De :
     $de = 'chat';
     // Avec :
@@ -36,33 +41,44 @@ function afficher_un_film($movie_key) {
     $genres = $film['genres'];
     // synopsis
     $synopsis = $film['overview'];
-
     // NOTE API
-    $note_api = "--";
+    if ($film['vote_count'])
+        $note_api = $film['vote_average'];
+    else
+        $note_api = "--";
     // NOTE BD
     if (boolFilmExiste($movie_key))
-        $note_db = getMoyenne($movie_key);
+        $note_db = getMoyenne($movie_key)['moyenne'];
     else
         $note_db = "--";
 
+    $ch = '<div class="unFilm">
+    ';
+    $ch .= '<div class="row">
+    ';
+
     // IMAGE
-    $ch = '<figure>
+    $ch .= '<div class="gauche">
     ';
     $ch .= '<img class="image" src="' . $img . '" alt="' . $titre . '" width="310" height="420">
     ';
-    $ch .= '</figure>
+    $ch .= '</div>
+    '; // gauche
+
+    $ch .= '<div class="droite">
     ';
 
-    // DESCRIPTION : TITRE + DATE + DE + AVEC
+    // DESCRIPTION : TITRE + DATE + DE + AVEC + GENRES
     $ch .= '<div class="description">
     ';
     $ch .= '<h2>' . $titre . '</h2>
     ';
     $ch .= '<div class="precision">
     ';
-    $ch .= '<span class="date>' . $date . '</span>
-    ';
-    $ch .= '<span class="de>' . $de . '</span>
+    if ($date != null)
+        $ch .= '<span class="date">' . strftime("%e %B %Y ", strtotime($date)) . '</span>
+        ';
+    $ch .= '<div class="de">' . $de . '</div>
     ';
     $ch .= '<div class="avec">
     ';
@@ -74,10 +90,8 @@ function afficher_un_film($movie_key) {
     '; // avec
     $ch .= '<div class="genres">
     ';
-    foreach ($genres as $k => $v) {
-        $ch .= '<span classe="genres">' . $v['name'] . '</span>
-    ';
-    }
+    $ch .= genereStringGenres($genres);
+
     $ch .= '</div>
     '; // genres
     $ch .= '</div>
@@ -91,12 +105,19 @@ function afficher_un_film($movie_key) {
     $ch .= $synopsis;
     $ch .= '</div>
     '; // synopsis
+    $ch .= '</div>
+    '; // droite
+    $ch .= '</div>
+    '; // row
 
     // NOTES
     $ch .= '<div class="notes">
                 ';
     $ch .= afficher_note($note_api, "l'API");
     $ch .= afficher_note($note_db, "la base des Zous");
+    $ch .= '</div>
+    ';
+
     $ch .= '</div>
     ';
 
@@ -119,15 +140,3 @@ function afficher_liste($tableau) { // nombre de résultats trouvés
     $ch .= '</ul>';
     return $ch;
 }
-
-/*
-// afficher_entete();
-// echo afficher_form();
-if (isset($_POST['submit'])) {
-    $liste = filtrer_trier();
-    afficher_liste($liste);
-    // gérer pagination
-}
-*/
-
-echo afficher_un_film(315162);

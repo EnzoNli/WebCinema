@@ -1,19 +1,18 @@
 <?php
 
+include_once("fcs_api.php");
 require_once("db_connexion.php");
 
 $connexion = new ConnexionDB("../database");
 
-function noter_un_film() {
+function noter_un_film($movie_key, $note, $commentaire) {
     global $connexion;
-
-    $movie_key = 34;
-    $titre_film = "Kaloo dans l'espace";
-    $date_sortie = '2021-12-01';
-    $login_ = "Zoze";
-    $note = 8;
-    $commentaire = 'Olak a trouvé ça trop beau !';
-    $genres = array(array("id" => 333, "nom" => "OlakEtKlou"), array("id" => 404, "nom" => "espace"));
+    // verif note 0 5 ?
+    $film = json_decode(getMovie($movie_key), true);
+    $titre_film = $film['title'];
+    $date_sortie = $film['release_date'];  // si y a rien ??? date(null) ?
+    $login_ = "Zoze"; //$_SESSION['login'];
+    $genres = $film['genres'];
     $acteurs = array(array("id" => 626, "nom" => "Olak le dino"), array("id" => 404, "nom" => "Kaloo le klou"));
 
     try {
@@ -38,7 +37,7 @@ function noter_un_film() {
 
             $st = $connexion->getDB()->prepare($sql);
             $st->bindParam(':genre_key' . $key,  $value['id'], PDO::PARAM_INT);
-            $st->bindParam(':nom_genre' . $key, $value['nom'], PDO::PARAM_STR);
+            $st->bindParam(':nom_genre' . $key, $value['name'], PDO::PARAM_STR);
             $st->execute();
 
             $sql = 'INSERT INTO Appartenir (api_genre_id, api_movie_id) 
@@ -114,6 +113,3 @@ function getCommentaires($movie_key) {
     $st->execute(array($movie_key));
     return $st->fetch(PDO::FETCH_ASSOC);
 }
-
-var_dump(getMoyenne(34));
-var_dump(getCommentaires(34));
