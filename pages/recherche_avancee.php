@@ -2,6 +2,7 @@
 
 require_once("../include/fc_afficher_recherche.php");
 require_once("../include/trier_filtrer.php");
+require_once("../include/fcs_pour_page_film.php");
 
 ?>
 
@@ -20,13 +21,8 @@ require_once("../include/trier_filtrer.php");
     <?php
 
     echo afficher_form();
-    
-    noter_un_film(315162, 4, "test1");
-    noter_un_film(424775, 3, "autre test");
 
     //afficher_liste($tableau);
-
-
     echo afficher_un_film(315162);
     echo afficher_un_film(12201);
     echo afficher_un_film(424775);

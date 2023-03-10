@@ -41,16 +41,6 @@ function afficher_un_film($movie_key) {
     $genres = $film['genres'];
     // synopsis
     $synopsis = $film['overview'];
-    // NOTE API
-    if ($film['vote_count'])
-        $note_api = $film['vote_average'];
-    else
-        $note_api = "--";
-    // NOTE BD
-    if (boolFilmExiste($movie_key))
-        $note_db = getMoyenne($movie_key)['moyenne'];
-    else
-        $note_db = "--";
 
     $ch = '<div class="unFilm">
     ';
@@ -113,8 +103,24 @@ function afficher_un_film($movie_key) {
     // NOTES
     $ch .= '<div class="notes">
                 ';
-    $ch .= afficher_note($note_api, "l'API");
-    $ch .= afficher_note($note_db, "la base des Zous");
+
+    // NOTE API
+    if ($film['vote_count']) {
+        $note_api = $film['vote_average'];
+        $ch .= afficher_note($note_api, "l'API");
+    } else {
+        $note_api = "--";
+        $ch .= afficher_pas_note($note_api, "l'API");
+    }
+    // NOTE BD
+    if (boolFilmExiste($movie_key)) {
+        $note_db = getMoyenne($movie_key);
+        $ch .= afficher_note($note_db, "la base des Zous");
+    } else {
+        $note_db = "--";
+        $ch .= afficher_pas_note($note_db, "la base des Zous");
+    }
+
     $ch .= '</div>
     ';
 

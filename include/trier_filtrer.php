@@ -1,17 +1,16 @@
 <?php
 
+require_once("fcs_pour_page_film.php");
 require_once("db_connexion.php");
-
 $connexion = new ConnexionDB("../database");
 
-// dans un autre fichier avec help pour afficher html
-// garder la dernière valeur envoyer par defaut
-// verif fin < debut
-// sinon ??
+// verif debut < fin
+// note inf < sup
 
 function afficher_form() {
     $chaine = '<form id="form" action="" method="post">
     ';
+    $chaine .= afficher_api_ou_db();
     $chaine .= afficher_select_trier();
     $chaine .= '<input type="text" name="titre" id="titre" placeholder="Titre de film">
     ';
@@ -20,6 +19,8 @@ function afficher_form() {
     $chaine .= afficher_select_genre();
     $chaine .= '<input type="text" name="acteur" id="acteur" placeholder="Acteur">
     ';
+    $chaine .= afficher_select_note("inf");
+    $chaine .= afficher_select_note("sup");
     $chaine .= '<br>
                 <input type="submit" name="submit" value="Rechercher">
                 </form>
@@ -47,7 +48,7 @@ function afficher_select_trier() {
     $chaine .= '<option value="+titre">Ordre alphabétique du titre</option>
     ';
     $chaine .= '</select>
-';
+    ';
     return $chaine;
 }
 
@@ -68,14 +69,15 @@ function afficher_select_genre() {
     ';
     }
     $chaine .= '</select>
-';
+    ';
     return $chaine;
 }
 
-function afficher_select_annee($marqueur) { // réutiliser avec "debut" et "fin" (entre ... et ...)
-    // de 1895:défaut à 2023:défaut
+function afficher_select_annee($marqueur) {
     $an = 2023;
     $chaine = '<select name="' . $marqueur . '" id="' . $marqueur . '" title="Trier par">
+    ';
+    $chaine .= '<option value="no"> -- </option>
     ';
     while ($an > 1894) {
         $chaine .= '<option value="' . $an . '">' . $an . '</option>
@@ -83,22 +85,49 @@ function afficher_select_annee($marqueur) { // réutiliser avec "debut" et "fin"
         $an -= 1;
     }
     $chaine .= '</select>
-';
+    ';
     return $chaine;
 }
 
+function afficher_select_note($marqueur) {
+    $n = 5;
+    $chaine = '<select name="' . $marqueur . '" id="' . $marqueur . '" title="Trier par">
+    ';
+    $chaine .= '<option value="no"> -- </option>
+    ';
+    while ($n >= 0) {
+        $chaine .= '<option value="' . $n . '">' . $n . '</option>
+    ';
+        $n -= 1;
+    }
+    $chaine .= '</select>
+    ';
+    return $chaine;
+}
+
+function afficher_api_ou_db() {
+    $ch = '<input type="radio" id="sqlite" name="db" value="sqlite" checked>
+    ';
+    $ch .= '<label for="sqlite">La base de données des Zous</label>
+    ';
+    $ch .= '<input type="radio" id="api" name="db" value="api">
+    ';
+    $ch .= '<label for="api">The Movie DataBase</label>
+    ';
+    return $ch;
+}
 
 function filtrer_trier() {
     global $connexion;
 
-    $trier = "+date"; // à la fin
-    $debut = '2010'; // defautà check ?
-    $fin = '2024'; // defaut ?
-    $titre = 'star';
+    $trier = "+date";
+    $debut = 'no';
+    $fin = 'no';
+    $titre = '';
     $genre = 'sans';
     $acteur = '';
-    $noteSup = '10'; // val défaut
-    $noteInf = '0'; // val défaut
+    $noteSup = '0';
+    $noteInf = '1';
 
     $prep_debut = $debut . '-01-01';
     $prep_fin = $fin . '-12-31';
@@ -122,8 +151,7 @@ function filtrer_trier() {
     $sql .= 'WHERE api_movie_id IN ('; // tri
 
     $sql .= 'SELECT api_movie_id
-            FROM Film
-            WHERE date_sortie >= date(:debut) AND date_sortie<= date(:fin)'; // années 
+            FROM Film';
 
     if (strcmp('', $titre)) { // titre 
         $sql .= ' INTERSECT ';
@@ -143,6 +171,31 @@ function filtrer_trier() {
                 FROM Film NATURAL JOIN Jouer NATURAL JOIN Acteur
                 WHERE nom_acteur LIKE :acteur'; // ESCAPE à ajouter 
     }
+    if (strcmp('no', $debut)) {
+        $sql .= ' INTERSECT ';
+        $sql .= 'SELECT api_movie_id
+                FROM Film
+                WHERE date_sortie >= date(:debut)';
+    }
+    if (strcmp('no', $fin)) {
+        $sql .= ' INTERSECT ';
+        $sql .= 'SELECT api_movie_id
+                FROM Film
+                WHERE date_sortie<= date(:fin)';
+    }
+    if (strcmp('no', $noteInf)) {
+        $sql .= ' INTERSECT ';
+        $sql .= 'SELECT api_movie_id
+                FROM NoteMoyenne
+                WHERE moyenne >= :inf';
+    }
+    if (strcmp('no', $noteSup)) {
+        $sql .= ' INTERSECT ';
+        $sql .= 'SELECT api_movie_id
+                FROM NoteMoyenne
+                WHERE moyenne <= :sup';
+    }
+
     switch ($trier) {
         case 'sans':
         case '+date':
@@ -169,18 +222,28 @@ function filtrer_trier() {
     }
 
     $st = $connexion->getDB()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    $st->bindParam(':debut', $prep_debut, PDO::PARAM_STR, 10);
-    $st->bindParam(':fin', $prep_fin, PDO::PARAM_STR, 10);
-    if (strcmp("", $titre)) {
+
+    if (strcmp("no", $debut))
+        $st->bindParam(':debut', $prep_debut, PDO::PARAM_STR, 10);
+
+    if (strcmp("no", $fin))
+        $st->bindParam(':fin', $prep_fin, PDO::PARAM_STR, 10);
+
+    if (strcmp("", $titre))
         $st->bindParam(':titre', $prep_titre, PDO::PARAM_STR);
-    }
-    if (strcmp("sans", $genre)) {
+
+    if (strcmp("sans", $genre))
         $st->bindParam(':genre', $genre, PDO::PARAM_STR);
-    }
-    if (strcmp("", $acteur)) {
+
+    if (strcmp("", $acteur))
         $st->bindParam(':acteur', $prep_acteur, PDO::PARAM_STR);
-    }
+
+    if (strcmp('no', $noteInf))
+        $st->bindParam(':inf', $noteInf, PDO::PARAM_INT);
+
+    if (strcmp('no', $noteSup))
+        $st->bindParam(':sup', $noteSup, PDO::PARAM_INT);
 
     $st->execute();
-    return $st->fetchAll();
+    return $st->fetch(PDO::FETCH_ASSOC);
 }
