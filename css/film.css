@@ -3,7 +3,6 @@
 body {
     color: white;
     background-color: #020d18;
-    overflow-x: hidden;
 }
 
 #bg-film {
@@ -82,4 +81,33 @@ body {
 
 #sep_com {
     margin-top: 50px;
+}
+
+h2 {
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+.rating {
+    width: 180px;
+ }
+ 
+.rating__star {
+    cursor: pointer;
+    color: #dabd18b2;
+}
+
+form{
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+button{
+    background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
 }

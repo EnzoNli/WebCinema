@@ -24,6 +24,7 @@ $infos_film = json_decode(getMovie($_GET['id_movie']), true);
     <title>Le Cinéma des Zous</title>
     <link rel="icon" type="../image/png" href="../images/logo.png" />
     <link rel="stylesheet" href="../css/film.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
     <script src="../js/jquery.js"></script>
 </head>
 
@@ -46,12 +47,60 @@ $infos_film = json_decode(getMovie($_GET['id_movie']), true);
         }
         echo "</div>";
         echo "<div id=\"note_api\">";
-        echo afficher_note($infos_film['vote_average'], "l'API");
+        echo afficher_note(floatval($infos_film['vote_average'])/2, "l'API");
         echo "</div>";
         ?>
         <p id="synopsis"><?php echo $infos_film['overview'] ?></p>
         <hr id="sep_com">
-        <h4>Commentaires :<br></h4>
+        <h2>Commentaires :<br></h2>
+        <form id="sub" action="" method="post">
+            Note :
+            <button type="button" name="1"><i class="rating__star far fa-star"></i></button>
+            <button type="button" name="2"><i class="rating__star far fa-star"></i></button>
+            <button type="button" name="3"><i class="rating__star far fa-star"></i></button>
+            <button type="button" name="4"><i class="rating__star far fa-star"></i></button>
+            <button type="button" name="5"><i class="rating__star far fa-star"></i></button>
+            <br><br>
+            <textarea name="com" id="com" cols="100" rows="10" maxlength="5000" placeholder="Veuillez écrire votre commentaire ici (5000 caractères max)" style="resize: none;" required></textarea>
+            <input type="submit"></button>
+        </form>
+
+        <script>
+            const ratingStars = [...document.getElementsByClassName("rating__star")];
+
+            function executeRating(stars) {
+            const starClassActive = "rating__star fas fa-star";
+            const starClassInactive = "rating__star far fa-star";
+            const starsLength = stars.length;
+            let i;
+            stars.map((star) => {
+                star.onclick = () => {
+                i = stars.indexOf(star);
+
+                if (star.className===starClassInactive) {
+                    for (i; i >= 0; --i) stars[i].className = starClassActive;
+                } else {
+                    for (i; i < starsLength; ++i) stars[i].className = starClassInactive;
+                }
+                };
+            });
+            }
+            executeRating(ratingStars);
+
+
+            $("#sub").submit(function( event ) {
+                var numItems = $('.fas').length
+                var comment = $('textarea#com').val();
+                jQuery.ajax({
+                    type: "POST",
+                    url: "../include/requeteAjaxJs.php",
+                    data: {functionname: 'noteFilm', arguments: [<?php echo $_GET['id_movie'] ?>, numItems, comment]}
+                }).done(function(reponse){
+                    alert(reponse);
+                });
+                event.preventDefault();
+            });
+        </script>
     </main>
 
 </body>

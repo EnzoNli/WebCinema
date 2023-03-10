@@ -1,6 +1,7 @@
 <?php
 
 include_once("fcs_api.php");
+include_once("fcs_pour_page_film.php");
 
 $renvoi = "";
 
@@ -20,4 +21,9 @@ switch($_POST["functionname"]){
             }
             echo $renvoi;
         }
+        break;
+    case 'noteFilm':
+        noter_un_film($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2]);
+        echo "c fai";
+        break;
 }   
