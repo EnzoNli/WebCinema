@@ -1,8 +1,9 @@
 <?php
 
-require_once("../include/fc_afficher_recherche.php");
-require_once("../include/trier_filtrer.php");
-require_once("../include/fcs_pour_page_film.php");
+require_once("../include/fcs_api.php");
+require_once("../include/fcs_bd.php");
+require_once("../include/formulaire.php");
+require_once("../include/res_recherche.php");
 
 ?>
 
