@@ -10,7 +10,10 @@ function afficher_note($note, $bdOuApi) {
     $ch = '<div class="boite_note">
     ';
     $ch .= '<p class="texte_note">Note de ' . $bdOuApi . ' : <span>
+    $ch .= '<p class="texte_note">Note de ' . $bdOuApi . ' : <span>
     ';
+    for ($i = 0; $i < $nb_etoiles; $i++) {
+        $ch .= '<img class="etoile" src="../images/etoile.png" alt="" class="image_etoile"></img>
     for ($i = 0; $i < $nb_etoiles; $i++) {
         $ch .= '<img class="etoile" src="../images/etoile.png" alt="" class="image_etoile"></img>
         ';
@@ -140,3 +143,15 @@ function afficher_liste($tableau) { // nombre de résultats trouvés
     $ch .= '</ul>';
     return $ch;
 }
+
+/*
+// afficher_entete();
+// echo afficher_form();
+if (isset($_POST['submit'])) {
+    $liste = filtrer_trier();
+    afficher_liste($liste);
+    // gérer pagination
+}
+*/
+
+echo afficher_un_film(315162);
