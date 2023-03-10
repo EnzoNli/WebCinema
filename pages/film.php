@@ -38,13 +38,20 @@ $infos_film = json_decode(getMovie($_GET['id_movie']), true);
         <h2 id="title-film"><?php echo $infos_film['title'] ?> <span id="date"><?php echo substr($infos_film['release_date'], 0, 4)?><span></h2>
         <p id="genre-film"><?php echo genereStringGenres($infos_film['genres']) ?></p>
         <?php 
+        echo "<div id=\"note_bd\">";
         if(boolFilmExiste($infos_film['id'])){
-            // A FAIRE
+            echo afficher_note(getMoyenne($infos_film['id']), "de la BD");
         }else{
-            // A FAIRE
+            echo afficher_note(0, "de la BD");
         }
+        echo "</div>";
+        echo "<div id=\"note_api\">";
         echo afficher_note($infos_film['vote_average'], "l'API");
+        echo "</div>";
         ?>
+        <p id="synopsis"><?php echo $infos_film['overview'] ?></p>
+        <hr id="sep_com">
+        <h4>Commentaires :<br></h4>
     </main>
 
 </body>

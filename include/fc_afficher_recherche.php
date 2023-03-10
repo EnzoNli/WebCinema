@@ -4,7 +4,7 @@ include_once("fcs_api.php");
 include_once("fcs_pour_page_film.php");
 
 function afficher_note($note, $bdOuApi) {
-    $nb_etoiles = floor($note);
+    $nb_etoiles = floor(($note/2));
     $ch = '<div class="boite_note">
     ';
     $ch .= '<p class="texte_note">Note de ' . $bdOuApi . ' : <span>
@@ -13,10 +13,11 @@ function afficher_note($note, $bdOuApi) {
         $ch .= '<img class="etoile" src="../images/etoile.png" alt="" class="image_etoile"></img>
         ';
     }
-    for ($i = 0; $i < 10 - $nb_etoiles; $i++){
+    for ($i = 0; $i < 5 - $nb_etoiles; $i++){
         $ch .= '<img class="etoile" src="../images/etoilevide.png" alt="" class="image_etoilevide"></img>
         ';
     }
+    $ch .= ' ' . $note/2;
     $ch .= '</span></p></div>
     ';
     return $ch;
