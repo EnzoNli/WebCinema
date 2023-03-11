@@ -41,7 +41,7 @@ class Navbar {
         echo "
         <link rel=\"stylesheet\" href=\"" . $remplacement1 . "css/nav.css\">
         <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css\" />
-        <nav>
+        <nav class=\"sticky\">
             <div class=\"logo\">
                 Le Cinéma des Zous
             </div>";
