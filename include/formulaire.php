@@ -31,6 +31,8 @@ function afficher_form() {
                 <div class="entrees">
                 <label for="inf">Note moyenne</label>
                 <br>
+                <span style="font-size:1.5vh">(dans la db des Zous)</span>
+                <br>
                 <span>min </span>
     ';
     $chaine .= afficher_select_note("inf");

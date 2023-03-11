@@ -23,7 +23,7 @@ h1 {
     margin-left: 3vw;
     margin-right: 3vw;
     width: 16vw;
-    font-size: 2.5vh;
+    font-size: 2.3vh;
     text-align: center;
 }
 ul {
@@ -81,7 +81,6 @@ input, #trier, #genre {
 .boite_note{
     padding-left: 5vw;
     padding-right: 5vw;
-    
 }
 
 

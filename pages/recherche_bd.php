@@ -54,7 +54,7 @@ echo afficher_entete("../css/liste_film.css");
         $('select').on('change', function() {
             var optionSelected = $("option:selected", this);
             var valueSelected = optionSelected.attr("value");
-            var nameSelected = optionSelected.attr("name");
+            var nameSelected = $(this).attr("name");
             switch (nameSelected) {
                 case "trier":
                     trier = valueSelected;
@@ -69,10 +69,10 @@ echo afficher_entete("../css/liste_film.css");
                     genre = valueSelected;
                     break;
                 case "inf":
-                    inf = valueSelected;
+                    noteInf = valueSelected;
                     break;
                 case "sup":
-                    sup = valueSelected;
+                    noteSup = valueSelected;
                     break;
             }
             jQuery.ajax({
