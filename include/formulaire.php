@@ -6,7 +6,6 @@ $connexion = new ConnexionDB("../database");
 function afficher_form() {
     $chaine = '<form id="form" action="" method="post">
     ';
-    $chaine .= afficher_api_ou_db();
     $chaine .= afficher_select_trier();
     $chaine .= '<input type="text" name="titre" id="titre" placeholder="Titre de film">
     ';
@@ -54,11 +53,11 @@ function afficher_select_genre() {
     ';
     $chaine .= '<option value="sans" selected> -- Genre -- </option>
     ';
-    $sql = 'SELECT nom_genre FROM Genre ORDER BY nom_genre';
+    $sql = 'SELECT api_genre_id,nom_genre FROM Genre ORDER BY nom_genre';
     $result = $connexion->getDB()->query($sql);
     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
         $chaine .= '<option value="';
-        $chaine .= $row['nom_genre'];
+        $chaine .= $row['api_genre_id'];
         $chaine .= '">';
         $chaine .= $row['nom_genre'];
         $chaine .= '</option>
@@ -99,16 +98,4 @@ function afficher_select_note($marqueur) {
     $chaine .= '</select>
     ';
     return $chaine;
-}
-
-function afficher_api_ou_db() {
-    $ch = '<input type="radio" id="sqlite" name="db" value="sqlite" checked>
-    ';
-    $ch .= '<label for="sqlite">La base de données des Zous</label>
-    ';
-    $ch .= '<input type="radio" id="api" name="db" value="api">
-    ';
-    $ch .= '<label for="api">The Movie DataBase</label>
-    ';
-    return $ch;
 }

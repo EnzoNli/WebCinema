@@ -110,7 +110,7 @@ function getCommentaires($movie_key) {
     global $connexion;
     $st = $connexion->getDB()->prepare('SELECT login_, note, commentaire FROM Noter WHERE api_movie_id = ? ;');
     $st->execute(array($movie_key));
-    return $st->fetch(PDO::FETCH_ASSOC);
+    return $st->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // verif debut < fin
@@ -161,7 +161,7 @@ function filtrer_trier() {
         $sql .= " INTERSECT ";
         $sql .= "SELECT api_movie_id
                 FROM Film NATURAL JOIN Appartenir NATURAL JOIN Genre
-                WHERE nom_genre = :genre";
+                WHERE api_genre_id = :genre";
     }
     if (strcmp('', $acteur)) { // acteur 
         $sql .= ' INTERSECT ';
@@ -243,5 +243,5 @@ function filtrer_trier() {
         $st->bindParam(':sup', $noteSup, PDO::PARAM_INT);
 
     $st->execute();
-    return $st->fetch(PDO::FETCH_ASSOC);
+    return $st->fetchAll(PDO::FETCH_ASSOC);
 }

@@ -1,6 +1,7 @@
 <?php
 
 include_once("fcs_api.php");
+include_once("fcs_bd.php");
 
 setlocale(LC_TIME, 'fr_FR.UTF-8', 'fra');
 
