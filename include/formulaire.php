@@ -4,26 +4,52 @@ include_once("db_connexion.php");
 $connexion = new ConnexionDB("../database");
 
 function afficher_form() {
-    $chaine = '<form id="form" action="" method="post">
+    $chaine = '<form id="formDB" action="" method="post">
     ';
     $chaine .= afficher_select_trier();
-    $chaine .= '<input type="text" name="titre" id="titre" placeholder="Titre de film">
+    $chaine .= '<div class="entrees">
+                <label for="genre">Entrer un mot-clef du titre</label>
+                <br>
+                <input type="text" name="titre" id="titre" placeholder="Titre de film">
+                </div>
+    ';
+    $chaine .= afficher_select_genre();
+    $chaine .= '<div class="entrees">
+                <label for="genre">Entrer un nom d\'acteur</label>
+                <br>
+                <input type="text" name="acteur" id="acteur" placeholder="Acteur">
+                </div>
+                <div class="entrees">
+                <label for="debut">Date de sortie</label>
+                <br>
+                <span>Entre </span>
     ';
     $chaine .= afficher_select_annee("debut");
+    $chaine .= '<span> et </span>';
     $chaine .= afficher_select_annee("fin");
-    $chaine .= afficher_select_genre();
-    $chaine .= '<input type="text" name="acteur" id="acteur" placeholder="Acteur">
+    $chaine .= '</div>
+                <div class="entrees">
+                <label for="inf">Note moyenne</label>
+                <br>
+                <span>(dans la bd des Zous)</span>
+                <br>
+                <span>min </span>
     ';
     $chaine .= afficher_select_note("inf");
+    $chaine .= '<span> et max </span>';
     $chaine .= afficher_select_note("sup");
-    $chaine .= '<br>
-    </form>
+    $chaine .= '</div>
+            </form>
     ';
     return $chaine;
 }
 
 function afficher_select_trier() {
-    $chaine = '<select name="trier" id="trier" title="Trier par">
+    $chaine = '<div class="entrees">
+            <label for="trier">Trier par</label>
+            <br>
+    ';
+    $chaine .= '<select name="trier" id="trier" title="Trier par">
     ';
     $chaine .= '<option value="sans" selected> -- Trier par -- </option>
     ';
@@ -42,13 +68,18 @@ function afficher_select_trier() {
     $chaine .= '<option value="+titre">Ordre alphabétique du titre</option>
     ';
     $chaine .= '</select>
+                </div>
     ';
     return $chaine;
 }
 
 function afficher_select_genre() {
     global $connexion;
-    $chaine = '<select name="genre" id="genre" title="Sélectionner un genre">
+    $chaine = '<div class="entrees">
+            <label for="genre">Sélectionner un genre</label>
+            <br>
+    ';
+    $chaine .= '<select name="genre" id="genre" title="Sélectionner un genre">
     ';
     $chaine .= '<option value="sans" selected> -- Genre -- </option>
     ';
@@ -63,17 +94,22 @@ function afficher_select_genre() {
     ';
     }
     $chaine .= '</select>
+                </div>
     ';
     return $chaine;
 }
 
-function afficher_select_annee($marqueur) {
-    $an = 2023;
+function afficher_select_annee($marqueur, $max = 2023, $min = 1894) {
+    $min -= 1;
+    $chaine = '<label for="trier">Trier par</label>
+    <br>
+    ';
+    $an = $max;
     $chaine = '<select name="' . $marqueur . '" id="' . $marqueur . '" title="Trier par">
     ';
-    $chaine .= '<option value="no"> -- </option>
+    $chaine .= '<option value="no"> ---- </option>
     ';
-    while ($an > 1894) {
+    while ($an > $min) {
         $chaine .= '<option value="' . $an . '">' . $an . '</option>
     ';
         $an -= 1;
