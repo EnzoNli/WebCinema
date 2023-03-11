@@ -13,7 +13,6 @@ echo afficher_entete("../css/film.css");
 
 noter_un_film("Zoze", 315162, 2, "a fait peur à Kaloo");
 noter_un_film("Enzo", 315162, 3, "Olak a adoré");
-noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
 
 ?>
 <header>
@@ -51,6 +50,7 @@ noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
         <textarea name="com" id="com" cols="100" rows="10" maxlength="5000" placeholder="Veuillez écrire votre commentaire ici (5000 caractères max)" style="resize: none;" required></textarea>
         <input type="submit" id="sub_btn"></button>
     </form>
+
 
     <div id="all_coms">
         <?php
@@ -90,17 +90,17 @@ noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
         $("#sub").submit(function(event) {
             var numItems = $('.fas').length
             var comment = $('textarea#com').val();
+            event.preventDefault();
             jQuery.ajax({
                 type: "POST",
                 url: "../include/requeteAjaxJs.php",
                 data: {
                     functionname: 'noteFilm',
-                    arguments: [<?php echo $_SESSION['username']. ", " . $_GET['id_movie'] ?>, numItems, comment]
+                    arguments: ["<?php echo $_SESSION['username'] ?>", <?php echo $_GET['id_movie'] ?>, numItems, comment]
                 }
             }).done(function(reponse) {
                 alert(reponse);
             });
-            event.preventDefault();
         });
     </script>
 </main>
