@@ -2,6 +2,7 @@
 
 include_once("fcs_api.php");
 include_once("fcs_bd.php");
+include_once("res_recherche.php");
 
 $renvoi = "";
 
@@ -24,6 +25,10 @@ switch ($_POST["functionname"]) {
         break;
     case 'noteFilm':
         noter_un_film($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], $_POST['arguments'][3]);
-        echo "c fai";
+        echo "Le commentaire a bien été pris en compte";
+        break;
+    case 'rechercheDB':
+        echo afficher_liste(filtrer_trier($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], $_POST['arguments'][3],
+        $_POST['arguments'][4], $_POST['arguments'][5], $_POST['arguments'][6], $_POST['arguments'][7]));
         break;
 }

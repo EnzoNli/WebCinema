@@ -8,11 +8,102 @@ include_once("../include/base_html.php");
 
 echo afficher_entete("../css/liste_film.css");
 
+noter_un_film("Zoze", 315162, 2, "a fait peur à Kaloo");
+noter_un_film("Enzo", 315162, 3, "Olak a adoré");
+noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
+
 echo afficher_form();
 
-//afficher_liste($tableau);
-echo afficher_un_film(315162);
-echo afficher_un_film(12201);
-echo afficher_un_film(424775);
+?>
+<div id="res"></div>
 
+<script>
+    var trier = "sans";
+    var debut = 'no';
+    var fin = 'no';
+    var titre = '';
+    var genre = 'sans';
+    var acteur = '';
+    var noteSup = 'no';
+    var noteInf = 'no';
+
+    $( document ).ready(function() {
+        jQuery.ajax({
+            type: "POST",
+            url: "../include/requeteAjaxJs.php",
+            data: {
+                functionname: 'rechercheDB',
+                arguments: [trier, debut, fin, titre, genre, acteur, noteSup, noteInf]
+            }
+        }).done(function(reponse) {
+            $("#res").html(reponse);
+        });
+    });
+
+    $('select').on('change', function () {
+        var optionSelected = $("option:selected", this);
+        var valueSelected = optionSelected.attr("value");
+        var nameSelected = $(this).attr("name");
+        switch(nameSelected){
+            case "trier":
+                trier = valueSelected;
+                break;
+            case "debut":
+                debut = valueSelected;
+                break;
+            case "fin":
+                fin = valueSelected;
+                break;
+            case "genre":
+                genre = valueSelected;
+                break;
+            case "inf":
+                noteInf = valueSelected;
+                break;
+            case "sup":
+                noteSup = valueSelected;
+                break;
+        }
+        console.log(nameSelected);
+        jQuery.ajax({
+            type: "POST",
+            url: "../include/requeteAjaxJs.php",
+            data: {
+                functionname: 'rechercheDB',
+                arguments: [trier, debut, fin, titre, genre, acteur, noteSup, noteInf]
+            }
+        }).done(function(reponse) {
+            $("#res").html(reponse);
+        });
+        
+    });
+
+    $("input").on("input", function() {
+        var valueSelected = $(this).val();
+        var nameSelected = $(this).attr("name");
+
+        switch(nameSelected){
+            case "titre":
+                titre = valueSelected;
+                break;
+            case "acteur":
+                acteur = valueSelected;
+                break;
+        }
+        jQuery.ajax({
+            type: "POST",
+            url: "../include/requeteAjaxJs.php",
+            data: {
+                functionname: 'rechercheDB',
+                arguments: [trier, debut, fin, titre, genre, acteur, noteSup, noteInf]
+            }
+        }).done(function(reponse) {
+            $("#res").html(reponse);
+        });
+    });
+</script>
+
+
+<?php
 echo afficher_pied();
+

@@ -115,17 +115,8 @@ function getCommentaires($movie_key) {
 
 // verif debut < fin
 // note inf < sup
-function filtrer_trier() {
+function filtrer_trier($trier, $debut, $fin, $titre, $genre, $acteur, $noteSup, $noteInf) {
     global $connexion;
-
-    $trier = "+date";
-    $debut = 'no';
-    $fin = 'no';
-    $titre = '';
-    $genre = 'sans';
-    $acteur = '';
-    $noteSup = '0';
-    $noteInf = '1';
 
     $prep_debut = $debut . '-01-01';
     $prep_fin = $fin . '-12-31';

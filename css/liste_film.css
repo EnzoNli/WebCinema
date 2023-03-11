@@ -45,3 +45,7 @@ img {
     margin-left: 8%;
     margin-right:8%;
 }
+
+ul {
+    list-style-type: none;
+}

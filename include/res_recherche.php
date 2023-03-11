@@ -148,7 +148,7 @@ function afficher_liste($tableau) { // nombre de résultats trouvés
     foreach ($tableau as $key => $value) {
         $ch .= '<li>
         ';
-        $ch .= afficher_un_film($value);
+        $ch .= afficher_un_film($value['api_movie_id']);
         $ch .= '</li>
         ';
     }

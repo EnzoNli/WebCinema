@@ -10,7 +10,7 @@ function genererSliderCard($chemin){
     foreach($infos['results'] as $movie){
         echo "<div class=\"slider-card\">";
         echo "<div class=\"slider-image\">";
-        echo "<span class=\"api_note\">" . $movie['vote_average'] . "<img src=\"images/etoile.png\" class=\"etoile\" alt=\"\"></span>";
+        echo "<span class=\"api_note\">" . round(floatval($movie['vote_average'])/2, 2) . "<img src=\"images/etoile.png\" class=\"etoile\" alt=\"\"></span>";
         echo "<img src=\"" . getCheminVersAfficheOuBackdrop(3, $movie['poster_path'], $chemin) . "\" class=\"affiche\" alt=\"\">";
         echo "<a href=\"pages/film.php?id_movie=" . $movie['id'] . "\"><button class=\"slider-btn\">voir</button></a>";
         echo "</div>";

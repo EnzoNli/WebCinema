@@ -80,12 +80,14 @@ body {
 }
 
 #sep_com {
+    margin: auto;
     margin-top: 50px;
+    width: 50%;
 }
 
 #titre_com {
     margin-left: 30px;
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 .rating {
@@ -97,7 +99,7 @@ body {
     color: #dabd18b2;
 }
 
-form{
+#sub{
     margin-left: 30px;
     margin-top: 20px;
 }
@@ -114,4 +116,20 @@ button{
 
 .container_com{
     margin-left: 30px;
+}
+
+#com{
+    width: 80vw;
+    height: 15vh;
+}
+
+#sub_btn{
+    color: white;
+    font-size: 2vh;
+    border: 3px solid white;
+    background-color: #020d18;
+    position: relative;
+    width: 15vw;
+    height: 15vh;
+    bottom: 7vh;
 }

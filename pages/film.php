@@ -49,7 +49,7 @@ noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
         <button type="button" name="5"><i class="rating__star far fa-star"></i></button>
         <br><br>
         <textarea name="com" id="com" cols="100" rows="10" maxlength="5000" placeholder="Veuillez écrire votre commentaire ici (5000 caractères max)" style="resize: none;" required></textarea>
-        <input type="submit"></button>
+        <input type="submit" id="sub_btn"></button>
     </form>
 
     <div id="all_coms">
