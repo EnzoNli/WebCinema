@@ -4,7 +4,7 @@ include_once("db_connexion.php");
 $connexion = new ConnexionDB("../database");
 
 function afficher_form() {
-    $chaine = '<form id="formDB" action="" method="post">
+    $chaine = '<form action="" method="post">
     ';
     $chaine .= afficher_select_trier();
     $chaine .= '<div class="entrees">
@@ -31,7 +31,7 @@ function afficher_form() {
                 <div class="entrees">
                 <label for="inf">Note moyenne</label>
                 <br>
-                <span>(dans la bd des Zous)</span>
+                <span>(dans la db des Zous)</span>
                 <br>
                 <span>min </span>
     ';

@@ -10,15 +10,16 @@ $nav = new Navbar("pages");
 
 echo afficher_entete("../css/liste_film.css");
 
-echo afficher_form();
-
 ?>
 
 <header>
     <?php $nav->afficheNavbar(); ?>
 </header>
 <main>
-    <?php echo afficher_form(); ?>
+    <div id="formDB">
+        <h1>Recherche DB</h1>
+        <?php echo afficher_form(); ?>
+    </div>
     <div id="res"></div>
 
     <script>

@@ -126,10 +126,10 @@ function afficher_un_film($movie_key) {
     // NOTE BD
     if (boolFilmExiste($movie_key)) {
         $note_db = getMoyenne($movie_key);
-        $ch .= afficher_note(round($note_db, 2), "la bd des Zous");
+        $ch .= afficher_note(round($note_db, 2), "la db des Zous");
     } else {
         $note_db = "--";
-        $ch .= afficher_pas_note($note_db, "la bd des Zous");
+        $ch .= afficher_pas_note($note_db, "la db des Zous");
     }
 
     $ch .= '</div>
