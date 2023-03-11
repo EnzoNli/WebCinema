@@ -10,10 +10,6 @@ $nav = new Navbar("pages");
 
 echo afficher_entete("../css/liste_film.css");
 
-noter_un_film("Zoze", 315162, 2, "a fait peur à Kaloo");
-noter_un_film("Enzo", 315162, 3, "Olak a adoré");
-noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
-
 echo afficher_form();
 
 ?>
