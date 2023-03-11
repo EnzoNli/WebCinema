@@ -110,7 +110,7 @@ function getCommentaires($movie_key) {
     global $connexion;
     $st = $connexion->getDB()->prepare('SELECT login_, note, commentaire FROM Noter WHERE api_movie_id = ? ;');
     $st->execute(array($movie_key));
-    return $st->fetch(PDO::FETCH_ASSOC);
+    return $st->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // verif debut < fin

@@ -28,18 +28,18 @@ noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
     <?php
     echo "<div id=\"note_bd\">";
     if (boolFilmExiste($infos_film['id'])) {
-        echo afficher_note(getMoyenne($infos_film['id']), "la BD");
+        echo afficher_note(round(floatval(getMoyenne($infos_film['id'])), 2), "la BD");
     } else {
         echo afficher_note(0, "la BD");
     }
     echo "</div>";
     echo "<div id=\"note_api\">";
-    echo afficher_note(floatval($infos_film['vote_average']) / 2, "l'API");
+    echo afficher_note(round(floatval($infos_film['vote_average']) / 2, 2), "l'API");
     echo "</div>";
     ?>
     <p id="synopsis"><?php echo $infos_film['overview'] ?></p>
     <hr id="sep_com">
-    <h2>Commentaires :<br></h2>
+    <h2 id="titre_com">Commentaires :<br></h2>
     <form id="sub" action="" method="post">
         Note :
         <button type="button" name="1"><i class="rating__star far fa-star"></i></button>
@@ -51,6 +51,18 @@ noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
         <textarea name="com" id="com" cols="100" rows="10" maxlength="5000" placeholder="Veuillez écrire votre commentaire ici (5000 caractères max)" style="resize: none;" required></textarea>
         <input type="submit"></button>
     </form>
+
+    <div id="all_coms">
+        <?php
+            $tab_coms = getCommentaires($_GET['id_movie']);
+            foreach($tab_coms as $com){
+                echo "<div class=\"container_com\"";
+                echo "<p>" . $com['login_'] . " (" . $com['note'] . " <span><img class=\"etoile\" src=\"../images/etoile.png\" alt=\"\"></img>) : <span></p>";
+                echo "<p>" . $com['commentaire'] . "</p>";
+                echo "</div><br>";
+            }
+        ?>
+    </div>
 
     <script>
         const ratingStars = [...document.getElementsByClassName("rating__star")];
@@ -83,7 +95,7 @@ noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
                 url: "../include/requeteAjaxJs.php",
                 data: {
                     functionname: 'noteFilm',
-                    arguments: [<?php echo $_GET['id_movie'] ?>, numItems, comment]
+                    arguments: [<?php echo $_SESSION['username']. ", " . $_GET['id_movie'] ?>, numItems, comment]
                 }
             }).done(function(reponse) {
                 alert(reponse);
