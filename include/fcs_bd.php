@@ -4,13 +4,13 @@ include_once("fcs_api.php");
 include_once("db_connexion.php");
 $connexion = new ConnexionDB("../database");
 
-function noter_un_film($movie_key, $note, $commentaire) {
+function noter_un_film($login, $movie_key, $note, $commentaire) {
     global $connexion;
     // verif note 0 5 ?
     $film = json_decode(getMovie($movie_key), true);
     $titre_film = $film['title'];
     $date_sortie = $film['release_date'];  // si y a rien ??? date(null) ?
-    $login_ = "Zoze"; //$_SESSION['login'];
+    $login_ = $login; //$_SESSION['login'];
     $genres = $film['genres'];
     $acteurs = array(array("id" => 626, "nom" => "Olak le dino"), array("id" => 404, "nom" => "Kaloo le klou"));
 

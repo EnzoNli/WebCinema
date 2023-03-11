@@ -1,6 +1,6 @@
 <?php
 
-function afficher_entete($js, $css) {
+function afficher_entete($css) {
     $ch = '<!DOCTYPE html>
     <html lang="fr">
 
@@ -12,10 +12,18 @@ function afficher_entete($js, $css) {
         <title>Le Cinéma des Zous</title>
         <link rel="icon" type="../image/png" href="../images/logo.png" />
         <link rel="stylesheet" href="' . $css . '">
-        <script src="' . $js . '"></script>
+        <script src="../js/jquery.js"></script>
     </head>
 
     <body>
+    ';
+    return $ch;
+}
+
+function afficher_pied() {
+    $ch = '
+    </body>
+    </html>
     ';
     return $ch;
 }

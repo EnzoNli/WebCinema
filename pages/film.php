@@ -9,7 +9,11 @@ include_once("../include/res_recherche.php");
 $nav = new Navbar("pages");
 $infos_film = json_decode(getMovie($_GET['id_movie']), true);
 
-echo afficher_entete("../js/jquery.js", "../css/film.css");
+echo afficher_entete("../css/film.css");
+
+noter_un_film("Zoze", 315162, 2, "a fait peur à Kaloo");
+noter_un_film("Enzo", 315162, 3, "Olak a adoré");
+noter_un_film("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
 
 ?>
 <header>
@@ -89,6 +93,4 @@ echo afficher_entete("../js/jquery.js", "../css/film.css");
     </script>
 </main>
 
-</body>
-
-</html>
+<?php echo afficher_pied(); ?>
