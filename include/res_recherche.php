@@ -118,7 +118,7 @@ function afficher_un_film($movie_key) {
     // NOTE API
     if ($film['vote_count']) {
         $note_api = $film['vote_average'];
-        $ch .= afficher_note($note_api, "l'API");
+        $ch .= afficher_note(round(floatval($note_api/2), 2), "l'API");
     } else {
         $note_api = "--";
         $ch .= afficher_pas_note($note_api, "l'API");
@@ -126,7 +126,7 @@ function afficher_un_film($movie_key) {
     // NOTE BD
     if (boolFilmExiste($movie_key)) {
         $note_db = getMoyenne($movie_key);
-        $ch .= afficher_note($note_db, "la base des Zous");
+        $ch .= afficher_note(round($note_db, 2), "la base des Zous");
     } else {
         $note_db = "--";
         $ch .= afficher_pas_note($note_db, "la base des Zous");
