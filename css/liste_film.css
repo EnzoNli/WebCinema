@@ -34,6 +34,11 @@ img {
     /*background-color: blue;*/
 }
 
+.etoile {
+    max-height: 0.75vw;
+    width: auto;
+}
+
 .notes {
     display : flow;
     margin-bottom : 5%;
