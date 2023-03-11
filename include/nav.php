@@ -1,6 +1,6 @@
 <?php
 
-require_once("db_connexion.php");
+include_once("db_connexion.php");
 
 class Navbar{
 
@@ -109,4 +109,3 @@ class Navbar{
         ";
     }
 }
-?>

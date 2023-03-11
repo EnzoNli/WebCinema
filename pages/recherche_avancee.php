@@ -1,9 +1,9 @@
 <?php
 
-require_once("../include/fcs_api.php");
-require_once("../include/fcs_bd.php");
-require_once("../include/formulaire.php");
-require_once("../include/res_recherche.php");
+include_once("../include/fcs_api.php");
+include_once("../include/fcs_bd.php");
+include_once("../include/formulaire.php");
+include_once("../include/res_recherche.php");
 
 ?>
 

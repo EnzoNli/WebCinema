@@ -1,107 +1,93 @@
-<?php 
+<?php
 
 include_once("../include/nav.php");
 include_once("../include/fcs_api.php");
-include_once("../include/fc_afficher_recherche.php");
-include_once("../include/fcs_pour_page_film.php");
+include_once("../include/fcs_bd.php");
+include_once("../include/base_html.php");
+include_once("../include/res_recherche.php");
 
 $nav = new Navbar("pages");
 $infos_film = json_decode(getMovie($_GET['id_movie']), true);
 
+echo afficher_entete("../js/jquery.js", "../css/film.css");
 
 ?>
+<header>
+    <?php $nav->afficheNavbar(); ?>
+</header>
 
+<main>
+    <img src="<?php echo getCheminVersAfficheOuBackdrop(6, $infos_film['backdrop_path'], basename(__DIR__)) ?>" alt="" id="bg-film">
+    <img src="<?php echo getCheminVersAfficheOuBackdrop(4, $infos_film['poster_path'], basename(__DIR__)) ?>" alt="" id="poster-film">
+    <h2 id="title-film"><?php echo $infos_film['title'] ?> <span id="date"><?php echo substr($infos_film['release_date'], 0, 4) ?><span></h2>
+    <p id="genre-film"><?php echo genereStringGenres($infos_film['genres']) ?></p>
+    <?php
+    echo "<div id=\"note_bd\">";
+    if (boolFilmExiste($infos_film['id'])) {
+        echo afficher_note(getMoyenne($infos_film['id']), "la BD");
+    } else {
+        echo afficher_note(0, "la BD");
+    }
+    echo "</div>";
+    echo "<div id=\"note_api\">";
+    echo afficher_note(floatval($infos_film['vote_average']) / 2, "l'API");
+    echo "</div>";
+    ?>
+    <p id="synopsis"><?php echo $infos_film['overview'] ?></p>
+    <hr id="sep_com">
+    <h2>Commentaires :<br></h2>
+    <form id="sub" action="" method="post">
+        Note :
+        <button type="button" name="1"><i class="rating__star far fa-star"></i></button>
+        <button type="button" name="2"><i class="rating__star far fa-star"></i></button>
+        <button type="button" name="3"><i class="rating__star far fa-star"></i></button>
+        <button type="button" name="4"><i class="rating__star far fa-star"></i></button>
+        <button type="button" name="5"><i class="rating__star far fa-star"></i></button>
+        <br><br>
+        <textarea name="com" id="com" cols="100" rows="10" maxlength="5000" placeholder="Veuillez écrire votre commentaire ici (5000 caractères max)" style="resize: none;" required></textarea>
+        <input type="submit"></button>
+    </form>
 
-<!DOCTYPE html>
-<html lang="fr">
+    <script>
+        const ratingStars = [...document.getElementsByClassName("rating__star")];
 
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="co-authored by enzo nulli, zoé marquis">
-    <title>Le Cinéma des Zous</title>
-    <link rel="icon" type="../image/png" href="../images/logo.png" />
-    <link rel="stylesheet" href="../css/film.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-    <script src="../js/jquery.js"></script>
-</head>
-
-<body>
-    <header>
-        <?php $nav->afficheNavbar(); ?>
-    </header>
-
-    <main>
-        <img src="<?php echo getCheminVersAfficheOuBackdrop(6, $infos_film['backdrop_path'], basename(__DIR__)) ?>" alt="" id="bg-film">
-        <img src="<?php echo getCheminVersAfficheOuBackdrop(4, $infos_film['poster_path'], basename(__DIR__)) ?>" alt="" id="poster-film">
-        <h2 id="title-film"><?php echo $infos_film['title'] ?> <span id="date"><?php echo substr($infos_film['release_date'], 0, 4)?><span></h2>
-        <p id="genre-film"><?php echo genereStringGenres($infos_film['genres']) ?></p>
-        <?php 
-        echo "<div id=\"note_bd\">";
-        if(boolFilmExiste($infos_film['id'])){
-            echo afficher_note(getMoyenne($infos_film['id']), "de la BD");
-        }else{
-            echo afficher_note(0, "de la BD");
-        }
-        echo "</div>";
-        echo "<div id=\"note_api\">";
-        echo afficher_note(floatval($infos_film['vote_average'])/2, "l'API");
-        echo "</div>";
-        ?>
-        <p id="synopsis"><?php echo $infos_film['overview'] ?></p>
-        <hr id="sep_com">
-        <h2>Commentaires :<br></h2>
-        <form id="sub" action="" method="post">
-            Note :
-            <button type="button" name="1"><i class="rating__star far fa-star"></i></button>
-            <button type="button" name="2"><i class="rating__star far fa-star"></i></button>
-            <button type="button" name="3"><i class="rating__star far fa-star"></i></button>
-            <button type="button" name="4"><i class="rating__star far fa-star"></i></button>
-            <button type="button" name="5"><i class="rating__star far fa-star"></i></button>
-            <br><br>
-            <textarea name="com" id="com" cols="100" rows="10" maxlength="5000" placeholder="Veuillez écrire votre commentaire ici (5000 caractères max)" style="resize: none;" required></textarea>
-            <input type="submit"></button>
-        </form>
-
-        <script>
-            const ratingStars = [...document.getElementsByClassName("rating__star")];
-
-            function executeRating(stars) {
+        function executeRating(stars) {
             const starClassActive = "rating__star fas fa-star";
             const starClassInactive = "rating__star far fa-star";
             const starsLength = stars.length;
             let i;
             stars.map((star) => {
                 star.onclick = () => {
-                i = stars.indexOf(star);
+                    i = stars.indexOf(star);
 
-                if (star.className===starClassInactive) {
-                    for (i; i >= 0; --i) stars[i].className = starClassActive;
-                } else {
-                    for (i; i < starsLength; ++i) stars[i].className = starClassInactive;
-                }
+                    if (star.className === starClassInactive) {
+                        for (i; i >= 0; --i) stars[i].className = starClassActive;
+                    } else {
+                        for (i; i < starsLength; ++i) stars[i].className = starClassInactive;
+                    }
                 };
             });
-            }
-            executeRating(ratingStars);
+        }
+        executeRating(ratingStars);
 
 
-            $("#sub").submit(function( event ) {
-                var numItems = $('.fas').length
-                var comment = $('textarea#com').val();
-                jQuery.ajax({
-                    type: "POST",
-                    url: "../include/requeteAjaxJs.php",
-                    data: {functionname: 'noteFilm', arguments: [<?php echo $_GET['id_movie'] ?>, numItems, comment]}
-                }).done(function(reponse){
-                    alert(reponse);
-                });
-                event.preventDefault();
+        $("#sub").submit(function(event) {
+            var numItems = $('.fas').length
+            var comment = $('textarea#com').val();
+            jQuery.ajax({
+                type: "POST",
+                url: "../include/requeteAjaxJs.php",
+                data: {
+                    functionname: 'noteFilm',
+                    arguments: [<?php echo $_GET['id_movie'] ?>, numItems, comment]
+                }
+            }).done(function(reponse) {
+                alert(reponse);
             });
-        </script>
-    </main>
+            event.preventDefault();
+        });
+    </script>
+</main>
 
 </body>
 

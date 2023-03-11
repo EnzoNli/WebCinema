@@ -1,6 +1,6 @@
 <?php
 
-require_once(getcwd() . "/../include/db_connexion.php");
+include_once(getcwd() . "/../include/db_connexion.php");
 
 session_start();
 $connexion = new ConnexionDB("../database");

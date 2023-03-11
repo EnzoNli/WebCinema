@@ -57,3 +57,11 @@ create view NbNotes as
     from Noter
     group by api_movie_id
 ;
+
+insert into Film 
+values (315162, "Le chat potté", date(2022-12-12));
+
+insert into Noter
+values ("Zoze", 315162, 2, "a fait peur à Kaloo"),
+    ("Enzo", 315162, 3, "Olak a adoré"),
+    ("TotorLeCastor", 315162, 5, "j'aime bien pcq y avait un chat");
