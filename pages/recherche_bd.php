@@ -111,7 +111,7 @@ echo afficher_entete("../css/liste_film.css");
                 }).done(function(reponse) {
                     $("#res").html(reponse);
                 });
-            }, 300);
+            }, 600);
         });
     </script>
 

@@ -1,14 +1,25 @@
-body {
+body{
     color: white;
     background-color: #020d18;
+    font-family: 'Montserrat', sans-serif;
+    padding-top: 90px;
 }
 
-#res {
-    margin-top: 3vh;
+input, select{
+    color: white;
+    background-color: #020d18;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2vh;
+}
+
+h1 {
+    font-size: 4vh;
+    margin-bottom: 2vh;
 }
 
 #formDB {
     position: fixed;
+    margin-top: 10vh;
     margin-left: 3vw;
     margin-right: 3vw;
     width: 16vw;
@@ -29,26 +40,26 @@ input, #trier, #genre {
 
 .unFilm {
     margin-right: 5vw;
-    padding-top: 1vh;
-    padding-left: 1vw;
-    border-color: #233a50;
+    margin-bottom: 5vh;
 }
 
 .row {
+    border: solid;
+    border-color: #233a50;
     display: flex;
 }
   
 .gauche {
-    padding-right: 1.5vw;
-    display: flex;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 2%;
+    padding-right: 2%;
 }
 
-img {
-    display: flex;
-}
-
-.droite {
-    flex: 70%;
+.droite{
+    padding-top: 2%;
+    padding-right: 2%;
+    position: relative;
 }
 
 .description {
@@ -58,24 +69,25 @@ img {
 
 .synopsis {
     position: relative;
-    /*background-color: blue;*/
-}
-
-.etoile {
-    max-height: 0.75vw;
-    width: auto;
 }
 
 .notes {
-    display : flow;
-    margin-bottom : 5%;
+    position:absolute;
+    top:86%;
     display: flex;
     justify-content: center;
 }
 
 .boite_note{
-    margin-left: 8%;
-    margin-right:8%;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    
+}
+
+
+.etoile {
+    max-height: 0.75vw;
+    width: auto;
 }
 
 ul {

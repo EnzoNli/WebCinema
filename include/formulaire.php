@@ -31,8 +31,6 @@ function afficher_form() {
                 <div class="entrees">
                 <label for="inf">Note moyenne</label>
                 <br>
-                <span>(dans la db des Zous)</span>
-                <br>
                 <span>min </span>
     ';
     $chaine .= afficher_select_note("inf");
@@ -107,7 +105,7 @@ function afficher_select_annee($marqueur, $max = 2023, $min = 1894) {
     $an = $max;
     $chaine = '<select name="' . $marqueur . '" id="' . $marqueur . '" title="Trier par">
     ';
-    $chaine .= '<option value="no"> ---- </option>
+    $chaine .= '<option value="no">----</option>
     ';
     while ($an > $min) {
         $chaine .= '<option value="' . $an . '">' . $an . '</option>
@@ -123,7 +121,7 @@ function afficher_select_note($marqueur) {
     $n = 5;
     $chaine = '<select name="' . $marqueur . '" id="' . $marqueur . '" title="Trier par">
     ';
-    $chaine .= '<option value="no"> -- </option>
+    $chaine .= '<option value="no">--</option>
     ';
     while ($n >= 0) {
         $chaine .= '<option value="' . $n . '">' . $n . '</option>
