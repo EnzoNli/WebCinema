@@ -106,10 +106,6 @@ function afficher_un_film($movie_key) {
     $ch .= $synopsis;
     $ch .= '</div>
     '; // synopsis
-    $ch .= '</div>
-    '; // droite
-    $ch .= '</div>
-    '; // row
 
     // NOTES
     $ch .= '<div class="notes">
@@ -132,16 +128,17 @@ function afficher_un_film($movie_key) {
         $ch .= afficher_pas_note($note_db, "la db des Zous");
     }
 
-    $ch .= '</div>
-    ';
 
     $ch .= '</div>
+            </div>
+            </div>
+            </div>
     ';
 
     return $ch;
 }
 
-function afficher_liste($tableau) { // nombre de résultats trouvés 
+function afficher_liste($tableau) {
     $ch = '<ul>
     ';
     foreach ($tableau as $key => $value) {
@@ -151,7 +148,6 @@ function afficher_liste($tableau) { // nombre de résultats trouvés
         $ch .= '</li>
         ';
     }
-
     $ch .= '</ul>';
     return $ch;
 }

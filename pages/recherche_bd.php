@@ -19,6 +19,7 @@ echo afficher_entete("../css/liste_film.css");
         <h1>Recherche DB</h1>
         <?php echo afficher_form(); ?>
     </div>
+    <div id="res"></div>
 
     <script>
         var trier = "sans";
