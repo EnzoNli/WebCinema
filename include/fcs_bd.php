@@ -4,15 +4,13 @@ include_once("fcs_api.php");
 include_once("db_connexion.php");
 $connexion = new ConnexionDB("../database");
 
-function noter_un_film($login, $movie_key, $note, $commentaire) {
+function noter_un_film($login_, $movie_key, $note, $commentaire) {
     global $connexion;
-    // verif note 0 5 ?
     $film = json_decode(getMovie($movie_key), true);
     $titre_film = $film['title'];
-    $date_sortie = $film['release_date'];  // si y a rien ??? date(null) ?
-    $login_ = $login; //$_SESSION['login'];
+    $date_sortie = $film['release_date'];
     $genres = $film['genres'];
-    $acteurs = array(array("id" => 626, "nom" => "Olak le dino"), array("id" => 404, "nom" => "Kaloo le klou"));
+    $acteurs = getActorsName($movie_key);
 
     try {
         $connexion->getDB()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -57,7 +55,7 @@ function noter_un_film($login, $movie_key, $note, $commentaire) {
 
             $st = $connexion->getDB()->prepare($sql);
             $st->bindParam(':acteur_key' . $key, $value['id'], PDO::PARAM_INT);
-            $st->bindParam(':nom_acteur' . $key, $value['nom'], PDO::PARAM_STR);
+            $st->bindParam(':nom_acteur' . $key, $value['name'], PDO::PARAM_STR);
             $st->execute();
 
             $sql = 'INSERT INTO Jouer (api_acteur_id, api_movie_id) 

@@ -12,11 +12,11 @@ function afficher_note($note, $bdOuApi) {
     $ch .= '<p class="texte_note">Note de ' . $bdOuApi . ' : <span>
     ';
     for ($i = 0; $i < $nb_etoiles; $i++) {
-        $ch .= '<img class="etoile" src="../images/etoile.png" alt=""></img>
+        $ch .= '<img class="etoile" src="../images/etoile.png" alt="étoile jaune"></img>
         ';
     }
     for ($i = 0; $i < 5 - $nb_etoiles; $i++) {
-        $ch .= '<img class="etoile" src="../images/etoilevide.png" alt=""></img>
+        $ch .= '<img class="etoile" src="../images/etoilevide.png" alt="étoile grise"></img>
         ';
     }
     $ch .= ' ' . $note;
@@ -43,11 +43,9 @@ function afficher_un_film($movie_key) {
     // titre_fr
     $titre = $film['title'];
     // date de sortie -> en mode fr
-    $date = $film['release_date']; // à transformer en 16 décembre 2021..., si null ?
-    // De :
-    $de = 'chat';
+    $date = $film['release_date'];
     // Avec :
-    $avec = array("un", "deux", "trois");
+    $acteurs = getActorsName($movie_key);
     // Genres : 
     $genres = $film['genres'];
     // synopsis
@@ -79,14 +77,16 @@ function afficher_un_film($movie_key) {
     if ($date != null)
         $ch .= '<span class="date">' . strftime("%e %B %Y ", strtotime($date)) . '</span>
         ';
-    $ch .= '<div class="de">' . $de . '</div>
+    $ch .= '<div class="avec">Avec :
     ';
-    $ch .= '<div class="avec">
-    ';
-    foreach ($avec as $k => $v) {
-        $ch .= '<span classe="avec">' . $v . '</span>
-    ';
+    $i = 0;
+    $act = '';
+    while ($i < 3 && $i < count($acteurs)) {
+        $act .= '<span classe="avec">' . $acteurs[$i]["name"] . ',</span>
+        ';
+        $i++;
     }
+    $ch .= $act;
     $ch .= '</div>
     '; // avec
     $ch .= '<div class="genres">
@@ -113,12 +113,12 @@ function afficher_un_film($movie_key) {
 
     // NOTES
     $ch .= '<div class="notes">
-                ';
+    ';
 
     // NOTE API
     if ($film['vote_count']) {
         $note_api = $film['vote_average'];
-        $ch .= afficher_note($note_api, "l'API");
+        $ch .= afficher_note(round(floatval($note_api / 2), 2), "l'API");
     } else {
         $note_api = "--";
         $ch .= afficher_pas_note($note_api, "l'API");
@@ -126,7 +126,7 @@ function afficher_un_film($movie_key) {
     // NOTE BD
     if (boolFilmExiste($movie_key)) {
         $note_db = getMoyenne($movie_key);
-        $ch .= afficher_note($note_db, "la base des Zous");
+        $ch .= afficher_note(round($note_db, 2), "la base des Zous");
     } else {
         $note_db = "--";
         $ch .= afficher_pas_note($note_db, "la base des Zous");
@@ -144,7 +144,6 @@ function afficher_un_film($movie_key) {
 function afficher_liste($tableau) { // nombre de résultats trouvés 
     $ch = '<ul>
     ';
-
     foreach ($tableau as $key => $value) {
         $ch .= '<li>
         ';

@@ -17,7 +17,6 @@ function afficher_form() {
     $chaine .= afficher_select_note("inf");
     $chaine .= afficher_select_note("sup");
     $chaine .= '<br>
-    <input type="submit" name="submit" value="Rechercher">
     </form>
     ';
     return $chaine;

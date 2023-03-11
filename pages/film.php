@@ -11,9 +11,6 @@ $infos_film = json_decode(getMovie($_GET['id_movie']), true);
 
 echo afficher_entete("../css/film.css");
 
-noter_un_film("Zoze", 315162, 2, "a fait peur à Kaloo");
-noter_un_film("Enzo", 315162, 3, "Olak a adoré");
-
 ?>
 <header>
     <?php $nav->afficheNavbar(); ?>
@@ -54,13 +51,13 @@ noter_un_film("Enzo", 315162, 3, "Olak a adoré");
 
     <div id="all_coms">
         <?php
-            $tab_coms = getCommentaires($_GET['id_movie']);
-            foreach($tab_coms as $com){
-                echo "<div class=\"container_com\"";
-                echo "<p>" . $com['login_'] . " (" . $com['note'] . " <span><img class=\"etoile\" src=\"../images/etoile.png\" alt=\"\"></img>) : <span></p>";
-                echo "<p>" . $com['commentaire'] . "</p>";
-                echo "</div><br>";
-            }
+        $tab_coms = getCommentaires($_GET['id_movie']);
+        foreach ($tab_coms as $com) {
+            echo "<div class=\"container_com\"";
+            echo "<p>" . $com['login_'] . " (" . $com['note'] . " <span><img class=\"etoile\" src=\"../images/etoile.png\" alt=\"\"></img>) : <span></p>";
+            echo "<p>" . $com['commentaire'] . "</p>";
+            echo "</div><br>";
+        }
         ?>
     </div>
 
@@ -96,7 +93,9 @@ noter_un_film("Enzo", 315162, 3, "Olak a adoré");
                 url: "../include/requeteAjaxJs.php",
                 data: {
                     functionname: 'noteFilm',
-                    arguments: ["<?php echo $_SESSION['username'] ?>", <?php echo $_GET['id_movie'] ?>, numItems, comment]
+                    arguments: ["<?php echo $_SESSION['username'] ?>", <?php echo $_GET['id_movie'] ?>,
+                        numItems, comment
+                    ]
                 }
             }).done(function(reponse) {
                 alert(reponse);
