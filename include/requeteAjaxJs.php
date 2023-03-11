@@ -23,7 +23,7 @@ switch ($_POST["functionname"]) {
         }
         break;
     case 'noteFilm':
-        noter_un_film($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2]);
+        noter_un_film($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], $_POST['arguments'][3]);
         echo "c fai";
         break;
 }
