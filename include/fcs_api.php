@@ -94,4 +94,14 @@ function getMovie($id_movie){
     return requeteCurl("https://api.themoviedb.org/3/movie/" . $id_movie . "?api_key=" . $api_key . "&language=fr-FR");
 }
 
+function getActorsName($id_movie){
+    global $api_key;
+    $req = json_decode(requeteCurl("https://api.themoviedb.org/3/movie/" . $id_movie . "/credits?api_key=" . $api_key . "&language=fr-FR"), true);
+    $res = array();
+    foreach($req['cast'] as $actor){
+        array_push($res, array($actor['id'], $actor['original_name']));
+    }
+    return $res;
+}
+
 ?>
