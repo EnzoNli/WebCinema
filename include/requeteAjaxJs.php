@@ -28,7 +28,41 @@ switch ($_POST["functionname"]) {
         echo "Le commentaire a bien été pris en compte";
         break;
     case 'rechercheDB':
-        echo afficher_liste(filtrer_trier($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], $_POST['arguments'][3],
+        echo afficher_liste_assoc(filtrer_trier($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], $_POST['arguments'][3],
         $_POST['arguments'][4], $_POST['arguments'][5], $_POST['arguments'][6], $_POST['arguments'][7]));
+        break;
+    
+    case 'rechercheAvanceeAPI':
+        if(empty($_POST['arguments'])){
+            $topMovies = json_decode(getTopRatedMovies(), true)['results'];
+            $ids = [];
+            foreach($topMovies as $movie){
+                array_push($ids, $movie['id']);
+            }
+            echo afficher_liste($ids);
+            break;
+        }
+
+        $params = [
+            'language' => 'fr-FR',
+            'query' => $_POST['arguments'][0]
+        ];
+
+        if(!empty($_POST['arguments'][1])) {
+            $params['sort_by'] = $_POST['arguments'][1];
+        }
+        if(!empty($_POST['arguments'][2])) {
+            $params['with_genres'] = $_POST['arguments'][2];
+        }
+        if(!empty($_POST['arguments'][3])) {
+            $params['year'] = $_POST['arguments'][3];
+        }
+
+        echo getRechercheAvancee(http_build_query($params));
+        /* $ids = [];
+        foreach($recherche as $movie){
+            array_push($ids, $movie['id']);
+        }
+        echo afficher_liste($ids); */
         break;
 }
