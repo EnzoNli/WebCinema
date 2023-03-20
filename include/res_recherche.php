@@ -51,7 +51,7 @@ function afficher_un_film($movie_key) {
     // synopsis
     $synopsis = $film['overview'];
 
-    $ch = '<div class="unFilm"><a href="film.php?id_movie=' . $movie_key . '">
+    $ch = '<div class="unFilm"><a class="affichageFilm" href="film.php?id_movie=' . $movie_key . '">
     ';
     $ch .= '<div class="row">
     ';
