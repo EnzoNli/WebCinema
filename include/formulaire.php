@@ -65,8 +65,6 @@ function afficher_select_trier() {
     ';
     $chaine .= '<option value="-date">Les moins récents</option>
     ';
-    $chaine .= '<option value="+titre">Ordre alphabétique du titre</option>
-    ';
     $chaine .= '</select>
                 </div>
     ';

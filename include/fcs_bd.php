@@ -84,7 +84,7 @@ function noter_un_film($login_, $movie_key, $note, $commentaire) {
         $connexion->getDB()->commit();
     } catch (Exception $e) {
         $connexion->getDB()->rollBack();
-        echo "Failed: " . $e->getMessage() . 'At line ' . $e->getLine();
+        echo "Failed: " . $e->getMessage() . 'À la ligne ' . $e->getLine();
     }
 }
 
@@ -111,8 +111,6 @@ function getCommentaires($movie_key) {
     return $st->fetchAll(PDO::FETCH_ASSOC);
 }
 
-// verif debut < fin
-// note inf < sup
 function filtrer_trier($trier, $debut, $fin, $titre, $genre, $acteur, $noteSup, $noteInf) {
     global $connexion;
 
@@ -190,9 +188,6 @@ function filtrer_trier($trier, $debut, $fin, $titre, $genre, $acteur, $noteSup, 
             break;
         case '-date':
             $sql .= ') ORDER BY date_sortie asc'; // ok
-            break;
-        case 'titre':
-            $sql .= ') ORDER BY titre asc'; // ok 
             break;
         case '+populaire':
             $sql .= ') ORDER BY nb desc';
