@@ -55,7 +55,10 @@ switch ($_POST["functionname"]) {
             $params['with_genres'] = $_POST['arguments'][2];
         }
         if(!empty($_POST['arguments'][3])) {
-            $params['year'] = $_POST['arguments'][3];
+            $params['year_start'] = $_POST['arguments'][3];
+        }
+        if(!empty($_POST['arguments'][4])) {
+            $params['year_stop'] = $_POST['arguments'][4];
         }
 
         echo getRechercheAvancee(http_build_query($params));

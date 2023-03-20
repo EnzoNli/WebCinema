@@ -23,6 +23,7 @@ echo afficher_entete("../css/liste_film.css");
     <div id="res"></div>
 </main>
 
+
 <script>
     var trier = "";
     var query = "";
@@ -50,10 +51,12 @@ echo afficher_entete("../css/liste_film.css");
             });
         });
 
-        $('select').on('change', function() {
+        $('#api_form').submit(function(event) {
             var optionSelected = $("option:selected", this);
             var valueSelected = optionSelected.attr("value");
             var nameSelected = $(this).attr("name");
+
+            event.preventDefault();
             switch (nameSelected) {
                 case "trier":
                     trier = valueSelected;
@@ -78,27 +81,6 @@ echo afficher_entete("../css/liste_film.css");
                 });
             }
 
-        });
-
-        $("input").on("input", function() {
-            var valueSelected = $(this).val();
-            var nameSelected = $(this).attr("name");
-            delay(function() {
-
-                if(nameSelected == "titre"){
-                    query = valueSelected
-                }
-                jQuery.ajax({
-                    type: "POST",
-                    url: "../include/requeteAjaxJs.php",
-                    data: {
-                        functionname: 'rechercheAvanceeAPI',
-                        arguments: [query, trier, genre, annee]
-                    }
-                }).done(function(reponse) {
-                    $("#res").html(reponse);
-                });
-            }, 600);
         });
 </script>
 <?php afficher_pied() ?>
