@@ -82,7 +82,7 @@ function afficher_un_film($movie_key) {
     $i = 0;
     $act = '';
     while ($i < 3 && $i < count($acteurs)) {
-        $act .= '<span classe="avec">' . $acteurs[$i]["name"] . ',</span>
+        $act .= '<span class="avec">' . $acteurs[$i]["name"] . ',</span>
         ';
         $i++;
     }
@@ -139,13 +139,27 @@ function afficher_un_film($movie_key) {
     return $ch;
 }
 
-function afficher_liste($tableau) {
+function afficher_liste_assoc($tableau) {
     $ch = '<ul>
     ';
     foreach ($tableau as $key => $value) {
         $ch .= '<li>
         ';
         $ch .= afficher_un_film($value['api_movie_id']);
+        $ch .= '</li>
+        ';
+    }
+    $ch .= '</ul>';
+    return $ch;
+}
+
+function afficher_liste($tableau) {
+    $ch = '<ul>
+    ';
+    foreach ($tableau as $value) {
+        $ch .= '<li>
+        ';
+        $ch .= afficher_un_film($value);
         $ch .= '</li>
         ';
     }

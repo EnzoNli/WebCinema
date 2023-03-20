@@ -132,3 +132,82 @@ function afficher_select_note($marqueur) {
     ';
     return $chaine;
 }
+
+
+
+
+
+
+
+
+// A PARTIR D'ICI C'EST POUR LA PAGE API
+
+function afficher_select_genre_api() {
+    global $connexion;
+    $chaine = '<div class="entrees">
+            <label for="genre">Sélectionner un genre</label>
+            <br>
+    ';
+    $chaine .= '<select name="genre" id="genre" title="Sélectionner un genre">
+    ';
+    $chaine .= '<option value="" selected> -- Genre -- </option>
+    ';
+    $genres = getGenreListe();
+    foreach($genres as $genre){
+        $chaine .= '<option value="';
+        $chaine .= $genre['id'];
+        $chaine .= '">';
+        $chaine .= $genre['name'];
+        $chaine .= '</option>
+    ';
+    }
+    $chaine .= '</select>
+                </div>
+    ';
+    return $chaine;
+}
+
+function afficher_select_trier_api() {
+    $chaine = '<div class="entrees">
+            <label for="trier">Trier par</label>
+            <br>
+    ';
+    $chaine .= '<select name="trier" id="trier" title="Trier par">
+    ';
+    $chaine .= '<option value="popularity.desc" selected>Popularité ↓ (par defaut)</option>
+    ';
+    $chaine .= '<option value="popularity.asc">Popularité ↑</option>
+    ';
+    $chaine .= '<option value="release_date.desc">Date de sortie ↓</option>
+    ';
+    $chaine .= '<option value="release_date.asc">Date de sortie ↑</option>
+    ';
+    $chaine .= '<option value="vote_average.desc">Note ↓</option>
+    ';
+    $chaine .= '<option value="vote_average.asc">Note ↑</option>
+    ';
+    $chaine .= '</select>
+                </div>
+    ';
+    return $chaine;
+}
+function afficher_form_api() {
+    $chaine = '<form action="" method="post">
+    ';
+    $chaine .= afficher_select_trier_api();
+    $chaine .= '<div class="entrees">
+                <label for="titre">Entrer un mot-clef du titre (obligatoire)</label>
+                <br>
+                <input type="text" name="titre" id="titre" placeholder="Titre de film">
+                </div>
+    ';
+    $chaine .= afficher_select_genre_api();
+    $chaine .= '<label for="year">Année de sortie</label><br>
+    ';
+    $chaine .= afficher_select_annee("year");
+    $chaine .= '
+            </div>
+            </form>
+    ';
+    return $chaine;
+}

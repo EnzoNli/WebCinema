@@ -88,9 +88,19 @@ function getRecherche($recherche) {
     return requeteCurl("https://api.themoviedb.org/3/search/movie?api_key=" . $api_key . "&language=fr-FR&query=" . urlencode($recherche) . "&page=1&include_adult=false");
 }
 
+function getRechercheAvancee($res_build_query) {
+    global $api_key;
+    return "https://api.themoviedb.org/3/search/movie?api_key=" . $api_key . "&" . $res_build_query;
+}
+
 function getMovie($id_movie) {
     global $api_key;
     return requeteCurl("https://api.themoviedb.org/3/movie/" . $id_movie . "?api_key=" . $api_key . "&language=fr-FR");
+}
+
+function getTopRatedMovies() {
+    global $api_key;
+    return requeteCurl("https://api.themoviedb.org/3/movie/top_rated?api_key=" . $api_key . "&language=fr-FR");
 }
 
 function getActorsName($id_movie) {
@@ -101,4 +111,9 @@ function getActorsName($id_movie) {
         array_push($res, array("id" => $actor['id'], "name" => $actor['original_name']));
     }
     return $res;
+}
+
+function getGenreListe(){
+    global $api_key;
+    return json_decode(requeteCurl("https://api.themoviedb.org/3/genre/movie/list?api_key=" . $api_key . "&language=fr-FR"), true)['genres'];
 }
