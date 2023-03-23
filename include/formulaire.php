@@ -145,10 +145,10 @@ function afficher_select_note($marqueur) {
 function afficher_select_genre_api() {
     global $connexion;
     $chaine = '<div class="entrees">
-            <label for="genre">Sélectionner un ou plusieurs genres</label>
+            <label for="genre">Sélectionner un genre</label>
             <br>
     ';
-    $chaine .= '<select name="genre" id="genre" multiple title="Sélectionner un genre">
+    $chaine .= '<select name="genre" id="genre" title="Sélectionner un genre">
     ';
     $chaine .= '<option value="" selected> -- Genre -- </option>
     ';
@@ -200,9 +200,9 @@ function afficher_form_api() {
     ';
     $chaine .= afficher_select_trier_api();
     $chaine .= '<div class="entrees">
-                <label for="titre">Un ou plusieurs mots-clés du film (séparés d\'espaces)</label>
+                <label for="keywords">Un ou plusieurs mots-clés du film (séparés d\'espaces)</label>
                 <br>
-                <input type="text" name="titre" id="titre" placeholder="Mots-clés">
+                <input type="text" name="keywords" id="keywords" placeholder="Mots-clés">
                 </div>
     ';
     $chaine .= afficher_select_genre_api();

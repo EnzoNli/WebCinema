@@ -2,15 +2,27 @@
 
 $api_key = "99d8800f8d0f8aea34740a64e8617a2a";
 
-function genereStringGenres($tab_genre) {
+function findGenreById($id, $array){
+    $res = array_column($array, null, 'id')[$id] ?? false;
+    if($res){
+        return $res['name'];
+    }else{
+        return false;
+    }
+}
+function genereStringGenres($tab_genre, $isAssoc) {
     $count = count($tab_genre);
     $res = "";
+    if(!$isAssoc){
+        $tab_assoc_genre = getGenreListe();
+    }
     foreach ($tab_genre as $genre) {
         if (--$count <= 0) {
-            $res .= $genre['name'];
+            $res .= $isAssoc ? $genre['name'] : findGenreById($genre, $tab_assoc_genre);
             break;
         }
-        $res .= $genre['name'] . ", ";
+        $res .= $isAssoc ? $genre['name'] : findGenreById($genre, $tab_assoc_genre);
+        $res .= ", ";
     }
 
     return $res;
@@ -73,6 +85,11 @@ function requeteCurl($url) {
     }
 }
 
+function getFirstKeyword($keyword){
+    global $api_key;
+    return requeteCurl("https://api.themoviedb.org/3/search/keyword?api_key=" . $api_key . "&query=" . htmlspecialchars($keyword));
+}
+
 function getConfig() {
     global $api_key;
     return requeteCurl("http://api.themoviedb.org/3/configuration?api_key=" . $api_key);
@@ -116,4 +133,9 @@ function getActorsName($id_movie) {
 function getGenreListe(){
     global $api_key;
     return json_decode(requeteCurl("https://api.themoviedb.org/3/genre/movie/list?api_key=" . $api_key . "&language=fr-FR"), true)['genres'];
+}
+
+function getDiscover($params){
+    global $api_key;
+    return requeteCurl("https://api.themoviedb.org/3/discover/movie?api_key=" . $api_key . "&language=fr-FR&" . $params);
 }

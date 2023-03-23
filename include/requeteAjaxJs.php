@@ -34,38 +34,40 @@ switch ($_POST["functionname"]) {
     
     case 'rechercheAvanceeAPI':
         if(empty($_POST['arguments'])){
-            $topMovies = json_decode(getTopRatedMovies(), true)['results'];
-            $ids = [];
-            foreach($topMovies as $movie){
-                array_push($ids, $movie['id']);
-            }
-            echo afficher_liste($ids);
+            echo afficher_liste(json_decode(getTopRatedMovies(), true)['results'], true);
             break;
         }
 
         $params = [
-            'language' => 'fr-FR',
-            'query' => $_POST['arguments'][0]
+            'language' => 'fr-FR'
         ];
 
+        if(!empty($_POST['arguments'][0])) {
+            $params['sort_by'] = $_POST['arguments'][0];
+        }
         if(!empty($_POST['arguments'][1])) {
-            $params['sort_by'] = $_POST['arguments'][1];
+            $tabKeywords = explode(' ', $_POST['arguments'][1]);
+            $tabIdKeywords = array();
+            foreach($tabKeywords as $keyword){
+                $res = json_decode(getFirstKeyword($keyword), true);
+                if(!empty($res['results'])){
+                    array_push($tabIdKeywords, $res['results'][0]['id']);
+                }
+            }
+            $params['with_keywords'] = implode(',', $tabIdKeywords);
         }
         if(!empty($_POST['arguments'][2])) {
             $params['with_genres'] = $_POST['arguments'][2];
         }
-        if(!empty($_POST['arguments'][3])) {
-            $params['year_start'] = $_POST['arguments'][3];
-        }
-        if(!empty($_POST['arguments'][4])) {
-            $params['year_stop'] = $_POST['arguments'][4];
+        
+        if($_POST['arguments'][3] != "no") {
+            $params['primary_release_date.gte'] = $_POST['arguments'][3];
         }
 
-        echo getRechercheAvancee(http_build_query($params));
-        /* $ids = [];
-        foreach($recherche as $movie){
-            array_push($ids, $movie['id']);
+        if($_POST['arguments'][4] != "no") {
+            $params['primary_release_date.lte'] = $_POST['arguments'][4];
         }
-        echo afficher_liste($ids); */
+
+        echo afficher_liste(json_decode(getDiscover(http_build_query($params)), true)['results'], true);
         break;
 }

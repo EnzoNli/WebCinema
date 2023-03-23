@@ -36,8 +36,14 @@ function afficher_pas_note($note, $bdOuApi) {
     return $ch;
 }
 
-function afficher_un_film($movie_key) {
-    $film = json_decode(getMovie($movie_key), true);
+function afficher_un_film($info_film, $isApiRequest) {
+    if($isApiRequest){
+        $film = $info_film;
+        $movie_key = $film['id'];
+    }else{
+        $film = json_decode(getMovie($info_film), true);
+        $movie_key = $info_film;
+    }
     // image
     $img = getCheminVersAfficheOuBackdrop(4, $film['poster_path'], "include");
     // titre_fr
@@ -47,7 +53,7 @@ function afficher_un_film($movie_key) {
     // Avec :
     $acteurs = getActorsName($movie_key);
     // Genres : 
-    $genres = $film['genres'];
+    $genres = $isApiRequest ? $film['genre_ids'] : $film['genres'];
     // synopsis
     $synopsis = $film['overview'];
 
@@ -91,7 +97,7 @@ function afficher_un_film($movie_key) {
     '; // avec
     $ch .= '<div class="genres">
     ';
-    $ch .= genereStringGenres($genres);
+    $ch .= $isApiRequest ? genereStringGenres($genres, false) : genereStringGenres($genres, true);
 
     $ch .= '</div>
     '; // genres
@@ -145,7 +151,7 @@ function afficher_liste_assoc($tableau) {
     foreach ($tableau as $key => $value) {
         $ch .= '<li>
         ';
-        $ch .= afficher_un_film($value['api_movie_id']);
+        $ch .= afficher_un_film($value['api_movie_id'], false);
         $ch .= '</li>
         ';
     }
@@ -153,13 +159,13 @@ function afficher_liste_assoc($tableau) {
     return $ch;
 }
 
-function afficher_liste($tableau) {
+function afficher_liste($tableau, $isApiRequest) {
     $ch = '<ul>
     ';
     foreach ($tableau as $value) {
         $ch .= '<li>
         ';
-        $ch .= afficher_un_film($value);
+        $ch .= afficher_un_film($value, $isApiRequest);
         $ch .= '</li>
         ';
     }

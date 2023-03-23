@@ -26,10 +26,8 @@ echo afficher_entete("../css/liste_film.css");
 
 <script>
     var trier = "";
-    var query = "";
     var genre = "";
     var annee = "";
-
     var delay = (function() {
         var timer = 0;
         return function(callback, ms) {
@@ -51,36 +49,27 @@ echo afficher_entete("../css/liste_film.css");
             });
         });
 
-        $('#api_form').submit(function(event) {
-            var optionSelected = $("option:selected", this);
-            var valueSelected = optionSelected.attr("value");
-            var nameSelected = $(this).attr("name");
+        $('#api_form').submit(function(event){
 
+
+            console.log($("#api_form :input[name='genre']")[0].value);
             event.preventDefault();
-            switch (nameSelected) {
-                case "trier":
-                    trier = valueSelected;
-                    break;
-                case "genre":
-                    genre = valueSelected;
-                    break;
-                case "year":
-                    annee = valueSelected;
-                    break;
-            }
-            if(query != ""){
-                jQuery.ajax({
-                    type: "POST",
-                    url: "../include/requeteAjaxJs.php",
-                    data: {
-                        functionname: 'rechercheAvanceeAPI',
-                        arguments: [query, trier, genre, annee]
-                    }
-                }).done(function(reponse) {
-                    $("#res").html(reponse);
-                });
-            }
-
+            jQuery.ajax({
+                type: "POST",
+                url: "../include/requeteAjaxJs.php",
+                data: {
+                    functionname: 'rechercheAvanceeAPI',
+                    arguments: [
+                        $("#api_form :input[name='trier']")[0].value,
+                        $("#api_form :input[name='keywords']")[0].value,
+                        $("#api_form :input[name='genre']")[0].value,
+                        $("#api_form :input[name='debut']")[0].value,
+                        $("#api_form :input[name='fin']")[0].value
+                    ]
+                }
+            }).done(function(reponse) {
+                $("#res").html(reponse);
+            });
         });
 </script>
 <?php afficher_pied() ?>
