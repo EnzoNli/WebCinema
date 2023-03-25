@@ -9,7 +9,7 @@ include_once("../include/res_recherche.php");
 
 $nav = new Navbar("pages");
 $infos_film = json_decode(getMovie($_GET['id_movie']), true);
-
+//var_dump($infos_film);
 echo afficher_entete("../css/film.css");
 
 ?>
@@ -133,7 +133,7 @@ echo afficher_entete("../css/film.css");
                 url: "../include/requeteAjaxJs.php",
                 data: {
                     functionname: 'noteFilm',
-                    arguments: ["<?php echo $_SESSION['username']; ?>", `<?php echo json_encode($infos_film, JSON_FORCE_OBJECT); ?>`,
+                    arguments: ["<?php echo $_SESSION['username']; ?>", <?php echo $_GET['id_movie']; ?>,
                         numItems, comment
                     ]
                 }

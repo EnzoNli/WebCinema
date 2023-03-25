@@ -20,7 +20,7 @@ class ConnexionDB
                 $st->execute(array("Zoze", password_hash("abricot", PASSWORD_DEFAULT)));
                 $this->db = $db;
 
-                $f = getMovie(315162);
+                $f = (315162);
                 $this->noter_un_film("TotorLeCastor",$f, 5, "J'ai passé un excellent moment
 Les personnages sont haut en couleur et tous charismatiques. Bon choix.
 L'animation est terrible surtout les combats qui sont ultra dynamiques (on sent l'influence japonaise)." );
@@ -28,11 +28,11 @@ L'animation est terrible surtout les combats qui sont ultra dynamiques (on sent 
 Juste époustouflant les graphismes et un scénario très très bien mené ! Je vous conseille vivement d'aller le voir !");
                 $this->noter_un_film("Zoze", $f, 5, "Ce film est une pure merveille. On en prend plein les yeux du début à la fin. Tout est très bien rythmé. Vous n'allez pas être déçu ! ");
 
-                $f = getMovie(299536);
+                $f = (299536);
                 $this->noter_un_film("Enzo", $f, 4, "Avengers : Infinity War est un incroyable spectacle qui devrait laisser tous les fans de Marvel bouche bée devant le travail effectué par Joe et Anthony Russo.");
                 $this->noter_un_film("Zoze", $f, 3, "Un spectacle visuel impeccable, mais sans surprises. ");
 
-                $f = getMovie(80321);
+                $f = (80321);
                 $this->noter_un_film("TotorLeCastor", $f, 3, "Pas le meilleur film de la saga, mais un très bon divertissement pour les petits et pour les grands. ");
                 $this->noter_un_film("Zoze", $f, 4, "Un véritable feu d'artifice ambulant, rempli de couleurs éclatantes, de personnages atypiques (avec une une vilaine méchamment drôle) et de scènes d'anthologie, 
 le tout servi par un rythme frénétique ne provoquant jamais l'ennui. Vous l'aurez compris : on en redemande!! ");
@@ -40,17 +40,17 @@ le tout servi par un rythme frénétique ne provoquant jamais l'ennui. Vous l'au
 La suite ne l'est pas moins, et sans l'humour du 1 et du 2.
 L'épisode de trop. ");
 
-                $f = getMovie(499701);
+                $f = (499701);
                 $this->noter_un_film("TotorLeCastor", $f, 2, "Babouche est fidèle au dessin animé mais déçu de ne pas avoir assez vu Totor le castor.");
         
-                $f = getMovie(634649);
+                $f = (634649);
                 $this->noter_un_film("TotorLeCastor", $f, 2, "Alors comment dire .... évidemment nous sommes en présence ici du plus gros fan service pour un film Spiderman il s'agit peut être même du meilleur 
 film depuis la version de Sam Rémy néanmoins on reste frustré car les bande annonce nous a presque tout dévoiler et les surprises ont était globalement gâché. la photo est globalement très moyenne et on a très peu de \"jolie plan\" 
 qu'il nous reste en tête a la fin du film. la réalisation également de Jon Watts est malheureusement raté ");
                 $this->noter_un_film("Enzo", $f, 3, "Spiderman version multiverse ou end game ... cela permet de mettre des effets spéciaux énormes, néanmoins cela n a pas donné pour autant plus de contenu au scénario comme on pouvait d y attendre. Pour le grand spectacle sur grand écran pourquoi pas ? 
 Mais pas vraiment passionnant quand à l intrigue que j ai trouvé décevante ");
 
-                $f = getMovie(69868);
+                $f = (69868);
                 $this->noter_un_film("Zoze", $f, 4, "Frais et très agréable. 
         Le monde de la musique symphonique est en voie de disparition... 
         alors pourquoi ne pas inculquer à nos enfants cette riche et belle musique ? 
@@ -59,11 +59,11 @@ Mais pas vraiment passionnant quand à l intrigue que j ai trouvé décevante ")
         trouve un tant soit peu de couleur, de douceur et de vérité... y'a plus personne. 
         Alors pour moi, c'est 4 étoiles bien méritées !!!" );
 
-        $f = getMovie(4935);
+        $f = (4935);
         $this->noter_un_film("Enzo", $f, 5, "Comme tout les autres films du même réalisateur, c'est un chef d'oeuvre quelque chose d'incomparable où se laisse porter par l'étrangeté de l'univers, la beauté des scènes et des dialogues. ");
         $this->noter_un_film("Zoze", $f, 4, "Voilà un film que j’ai bien fait de revoir. Car entre sa magnifique animation, son histoire tendre et émouvante, ses sympathiques personnages ainsi que sa très belle bande originale, ce long-métrage de Hayao Miyazaki se trouve être une œuvre d’une grande sensibilité, magique et profondément poétique. Clairement un des plus beaux films du cinéma d’animation qu’il m’ait été donné de visionner jusqu’à maintenant. ");
         
-        $f = getMovie(361743);
+        $f = (361743);
         $this->noter_un_film("Enzo", $f, 5, "Enfin un film qui sort du lot .. 
         même si certains flashback reviennent dans ce film .. pour rappeler l'ancien film .. 
         les effets et la photographie sont as coupé le souffle .. cramponné au fauteuil ont en 
@@ -78,7 +78,7 @@ Mais pas vraiment passionnant quand à l intrigue que j ai trouvé décevante ")
         ressortez de la salle avec la banane !! 
         Tout la joie d'un bon film au cinéma ");
 
-        $f = getMovie(149870);
+        $f = (149870);
         $this->noter_un_film("Zoze", $f, 5, "
 Le Vent se lève : Et voila, Hayao Miyazaki tire sa révérence et nous livre son ultime œuvre. 
 Il prend sa retraite bien mérité d’une merveilleuse façon. 
@@ -135,9 +135,10 @@ je vous laisse le découvrir car chacun y trouve son message. ");
         return $this->db;
     }
 
-    function noter_un_film($login_, $infos_json, $note, $commentaire) {
-        $film = json_decode($infos_json, JSON_FORCE_OBJECT);
-        $movie_key = $film['id'];
+    function noter_un_film($login_, $movie_key, $note, $commentaire) {
+        //$film = json_decode($infos_json, JSON_UNESCAPED_UNICODE);
+        //$movie_key = $film['id'];
+        $film = json_decode(getMovie($movie_key), true);
         $titre_film = $film['title'];
         $date_sortie = $film['release_date'];
         $genres = $film['genres'];
