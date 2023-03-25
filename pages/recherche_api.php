@@ -36,21 +36,10 @@ echo afficher_entete("../css/liste_film.css");
         };
     })();
 
-        $(document).ready(function() {
-            jQuery.ajax({
-                type: "POST",
-                url: "../include/requeteAjaxJs.php",
-                data: {
-                    functionname: 'rechercheAvanceeAPI',
-                    arguments: []
-                }
-            }).done(function(reponse) {
-                $("#res").html(reponse);
-            });
-        });
+
 
         $('#api_form').submit(function(event){
-
+            $('#api_form').append("<div class=\"loader\"></div>");
 
             console.log($("#api_form :input[name='genre']")[0].value);
             event.preventDefault();
@@ -68,6 +57,7 @@ echo afficher_entete("../css/liste_film.css");
                     ]
                 }
             }).done(function(reponse) {
+                $('.loader').remove();
                 $("#res").html(reponse);
             });
         });

@@ -49,7 +49,7 @@ body {
     color: white;
     position: absolute;
     left: 87vw;
-    top: 59vh;
+    top: 53vh;
 }
 
 
@@ -57,7 +57,7 @@ body {
     color: white;
     position: absolute;
     left: 87vw;
-    top: 62vh;
+    top: 56vh;
 }
 
 .etoile {
@@ -76,7 +76,7 @@ body {
     font-size: 1vw;
     color: white;
     position:relative;
-    padding-top: 12vh;
+    padding-top: 18vh;
 }
 
 #sep_com {

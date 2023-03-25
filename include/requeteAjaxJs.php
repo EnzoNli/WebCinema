@@ -54,7 +54,11 @@ switch ($_POST["functionname"]) {
                     array_push($tabIdKeywords, $res['results'][0]['id']);
                 }
             }
-            $params['with_keywords'] = implode(',', $tabIdKeywords);
+            if(!empty($tabIdKeywords)){
+                $params['with_keywords'] = implode(',', $tabIdKeywords);
+            }else{
+                break;
+            }
         }
         if(!empty($_POST['arguments'][2])) {
             $params['with_genres'] = $_POST['arguments'][2];
@@ -67,6 +71,8 @@ switch ($_POST["functionname"]) {
         if($_POST['arguments'][4] != "no") {
             $params['primary_release_date.lte'] = $_POST['arguments'][4];
         }
+
+        
 
         echo afficher_liste(json_decode(getDiscover(http_build_query($params)), true)['results'], true);
         break;

@@ -174,7 +174,7 @@ function afficher_select_trier_api() {
     ';
     $chaine .= '<select name="trier" id="trier" title="Trier par">
     ';
-    $chaine .= '<option value="popularity.desc" selected>Popularité ↓ (par defaut)</option>
+    $chaine .= '<option value="popularity.desc" selected>Popularité ↓</option>
     ';
     $chaine .= '<option value="popularity.asc">Popularité ↑</option>
     ';
