@@ -133,7 +133,7 @@ echo afficher_entete("../css/film.css");
                 url: "../include/requeteAjaxJs.php",
                 data: {
                     functionname: 'noteFilm',
-                    arguments: ["<?php echo $_SESSION['username'] ?>", <?php echo json_encode($infos_film, true) ?>,
+                    arguments: ["<?php echo $_SESSION['username']; ?>", `<?php echo json_encode($infos_film, JSON_FORCE_OBJECT); ?>`,
                         numItems, comment
                     ]
                 }
