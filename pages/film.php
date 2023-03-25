@@ -13,6 +13,7 @@ $infos_film = json_decode(getMovie($_GET['id_movie']), true);
 echo afficher_entete("../css/film.css");
 
 ?>
+
 <header>
     <?php $nav->afficheNavbar(); ?>
 </header>
@@ -46,8 +47,10 @@ echo afficher_entete("../css/film.css");
         <button type="button" name="5"><i class="rating__star far fa-star"></i></button>
         <br><br>
         <textarea name="com" id="com" cols="100" rows="10" maxlength="5000" placeholder="Veuillez écrire votre commentaire ici (5000 caractères max)" style="resize: none;" required></textarea>
-        <input type="submit" id="sub_btn"></button>
+        <input type="submit" id="sub_btn" value="Envoyer"></button>
     </form>
+
+    <div id="popup-container"></div>
 
 
     <div id="all_coms">
@@ -64,6 +67,42 @@ echo afficher_entete("../css/film.css");
 
     <script>
         const ratingStars = [...document.getElementsByClassName("rating__star")];
+
+        function createPopup(isSuccess, message){
+            let res = "";
+            res = `
+                <section id="popup" class="active">
+                <div class="modal-box">`;
+                
+            if(isSuccess){
+                res += `
+                    <i class="fa-regular fa-circle-check" id="logo"></i>
+                    <h2>Succès !</h2>`;
+            }else{
+                res += `
+                    <i class="fa-regular fa-circle-xmark" id="logo"></i>
+                    <h2>Echec !</h2>`;
+            }
+            
+            res += "<h3>" + message + `</h3>
+            <div class="buttons">
+            <button class="close-btn">Ok</button>
+            </div>
+            </div>
+            </section>
+            `;
+
+
+            $("#popup-container").html(res);
+            
+            if(!isSuccess){
+                $("#logo").css("color", "#f12222");
+            }
+            $(".close-btn").click(function(){
+                $("#popup-container").html("");
+                location.reload();
+            });
+        }
 
         function executeRating(stars) {
             const starClassActive = "rating__star fas fa-star";
@@ -99,7 +138,17 @@ echo afficher_entete("../css/film.css");
                     ]
                 }
             }).done(function(reponse) {
-                alert(reponse);
+                switch (reponse) {
+                    case "0":
+                        createPopup(true, "Le commentaire a bien été pris en compte");
+                        break;
+                    case "23000":
+                        createPopup(false, "Vous avez déjà noté ce film !");
+                        break;
+                    default:
+                        createPopup(false, "Oups ! Quelque chose s'est mal passé !");
+                        break;
+                }
             });
         });
     </script>
