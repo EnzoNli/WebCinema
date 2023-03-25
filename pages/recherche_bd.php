@@ -39,6 +39,7 @@ echo afficher_entete("../css/liste_film.css");
         })();
 
         $(document).ready(function() {
+            $('#db_form').append("<div class=\"loader\"></div>");
             jQuery.ajax({
                 type: "POST",
                 url: "../include/requeteAjaxJs.php",
@@ -47,11 +48,13 @@ echo afficher_entete("../css/liste_film.css");
                     arguments: [trier, debut, fin, titre, genre, acteur, noteSup, noteInf]
                 }
             }).done(function(reponse) {
+                $('.loader').remove();
                 $("#res").html(reponse);
             });
         });
 
         $('select').on('change', function() {
+            $('#db_form').append("<div class=\"loader\"></div>");
             var optionSelected = $("option:selected", this);
             var valueSelected = optionSelected.attr("value");
             var nameSelected = $(this).attr("name");
@@ -83,12 +86,14 @@ echo afficher_entete("../css/liste_film.css");
                     arguments: [trier, debut, fin, titre, genre, acteur, noteSup, noteInf]
                 }
             }).done(function(reponse) {
+                $('.loader').remove();
                 $("#res").html(reponse);
             });
 
         });
 
         $("input").on("input", function() {
+            $('#db_form').append("<div class=\"loader\"></div>");
             var valueSelected = $(this).val();
             var nameSelected = $(this).attr("name");
             delay(function() {
@@ -109,6 +114,7 @@ echo afficher_entete("../css/liste_film.css");
                         arguments: [trier, debut, fin, titre, genre, acteur, noteSup, noteInf]
                     }
                 }).done(function(reponse) {
+                    $('.loader').remove();
                     $("#res").html(reponse);
                 });
             }, 600);

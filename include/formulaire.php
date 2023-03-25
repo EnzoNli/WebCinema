@@ -4,7 +4,7 @@ include_once("db_connexion.php");
 $connexion = new ConnexionDB("../database");
 
 function afficher_form() {
-    $chaine = '<form action="" method="post">
+    $chaine = '<form action="" method="post" id="db_form">
     ';
     $chaine .= afficher_select_trier();
     $chaine .= '<div class="entrees">

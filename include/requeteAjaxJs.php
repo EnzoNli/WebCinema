@@ -25,7 +25,7 @@ switch ($_POST["functionname"]) {
         }
         break;
     case 'noteFilm':
-        $connexion->noter_un_film($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], $_POST['arguments'][3]);
+        $connexion->noter_un_film($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], htmlentities($_POST['arguments'][3]));
         echo "Le commentaire a bien été pris en compte";
         break;
     case 'rechercheDB':

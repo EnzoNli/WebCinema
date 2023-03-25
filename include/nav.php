@@ -66,7 +66,6 @@ class Navbar {
                 . $this->username . "<i class=\"fa fa-caret-down\"></i>
                 </button>
                 <div class=\"dropdown-content-perso\">
-                    <a href=\"#\">Profil</a>
                     <a href=\"?deco=1\" id=\"deco\">Se déconnecter</a>
                 </div>
             </div>
