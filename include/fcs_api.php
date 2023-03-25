@@ -30,7 +30,7 @@ function genereStringGenres($tab_genre, $isAssoc) {
 
 function getCheminVersAfficheOuBackdrop($size, $poster_path, $chemin) {
     if ($poster_path == null) {
-        if ($chemin == "pages") {
+        if ($chemin == "pages" || $chemin == "include") {
             if ($size != 6) {
                 return "../images/noimageaffiche.png";
             } else {
