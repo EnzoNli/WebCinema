@@ -26,11 +26,12 @@ switch ($_POST["functionname"]) {
         break;
     case 'noteFilm':
         $b = $connexion->noter_un_film($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], htmlentities($_POST['arguments'][3]));
-        /*if ($b)
+        if ($b==0)
             echo "Le commentaire a bien été pris en compte";
+        else if ($b==23000)
+            echo "Vous avez déjà noté ce film !";
         else
-            echo "Oups ! Quelque chose s'est mal passé ";*/
-        echo $b;
+            echo "Oups ! Quelque chose s'est mal passé ";
         break;
     case 'rechercheDB':
         echo afficher_liste_assoc(filtrer_trier($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], $_POST['arguments'][3],
