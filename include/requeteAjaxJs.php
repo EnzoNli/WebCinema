@@ -3,6 +3,7 @@
 include_once("fcs_api.php");
 include_once("fcs_bd.php");
 include_once("res_recherche.php");
+$connexion = new ConnexionDB("../database");
 
 $renvoi = "";
 
@@ -24,7 +25,7 @@ switch ($_POST["functionname"]) {
         }
         break;
     case 'noteFilm':
-        noter_un_film($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], $_POST['arguments'][3]);
+        $connexion->noter_un_film($_POST['arguments'][0], $_POST['arguments'][1], $_POST['arguments'][2], $_POST['arguments'][3]);
         echo "Le commentaire a bien été pris en compte";
         break;
     case 'rechercheDB':

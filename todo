@@ -5,6 +5,7 @@ TODO :
 - fiches de tests
 - portfolio
 - rapport
+- pagination
 
 ! être loggé pour accéder à n'importe quel service
 
@@ -14,6 +15,8 @@ que la moyenne et les commentaires soient quand meme affichés ?
 rendre clickable dans liste
 
 page d'un film :
+
+- submit query
 
 - probleme texte sur image
 - commentaires
@@ -29,3 +32,12 @@ page recherches:
 
 rapport :
 expliquer latence / requete ajax
+
+3 mots de passe
+
++ de temps : remplir la bd pour montrer que pagination fonctionne...
+vous pouvez copier coller ce code ...
+
+mot clef existe pas recherche api : des r'esultats quand meme ....
+
+le commentaire a bien été envoyé
