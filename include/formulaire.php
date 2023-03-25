@@ -53,17 +53,17 @@ function afficher_select_trier() {
     ';
     $chaine .= '<option value="sans" selected> -- Trier par -- </option>
     ';
-    $chaine .= '<option value="+populaire">Les plus populaires</option>
+    $chaine .= '<option value="+populaire">Popularité ↓</option>
     ';
-    $chaine .= '<option value="-populaire">Les moins populaires</option>
+    $chaine .= '<option value="-populaire">Popularité ↑</option>
     ';
-    $chaine .= '<option value="+notes">Les mieux notés</option>
+    $chaine .= '<option value="+notes">Note ↓</option>
     ';
-    $chaine .= '<option value="-notes">Les moins bien notés</option>
+    $chaine .= '<option value="-notes">Note ↑</option>
     ';
-    $chaine .= '<option value="+date">Les plus récents</option>
+    $chaine .= '<option value="+date">Date de sortie ↓</option>
     ';
-    $chaine .= '<option value="-date">Les moins récents</option>
+    $chaine .= '<option value="-date">Date de sortie ↑</option>
     ';
     $chaine .= '</select>
                 </div>
