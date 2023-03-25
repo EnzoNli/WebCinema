@@ -77,15 +77,17 @@ input, #trier, #genre {
 }
 
 .notes {
+    border: 2px solid white;
     position:absolute;
     top:86%;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
 }
 
 .boite_note{
-    padding-left: 5vw;
-    padding-right: 5vw;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    white-space: nowrap;
 }
 
 
