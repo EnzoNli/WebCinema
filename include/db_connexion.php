@@ -146,7 +146,10 @@ je vous laisse le découvrir car chacun y trouve son message. ");
             $st->bindParam(':movie_key', $movie_key, PDO::PARAM_INT);
             $st->bindParam(':titre_film', $titre_film, PDO::PARAM_STR);
             $st->bindParam(':date_sortie', $date_sortie, PDO::PARAM_STR, 10);
-            $st->execute();
+            if (!$st->execute()){
+                $this->getDB()->rollBack();
+                return "faux";
+            }
 
             foreach ($genres as $key => $value) {
                 $sql = 'INSERT INTO Genre (api_genre_id, nom_genre) 
@@ -156,7 +159,10 @@ je vous laisse le découvrir car chacun y trouve son message. ");
                 $st = $this->getDB()->prepare($sql);
                 $st->bindParam(':genre_key' . $key,  $value['id'], PDO::PARAM_INT);
                 $st->bindParam(':nom_genre' . $key, $value['name'], PDO::PARAM_STR);
-                $st->execute();
+                if (!$st->execute()){
+                    $this->getDB()->rollBack();
+                    return "faux";
+                }
 
                 $sql = 'INSERT INTO Appartenir (api_genre_id, api_movie_id) 
                         SELECT :genre_key' . $key . ', :movie_key
@@ -166,7 +172,10 @@ je vous laisse le découvrir car chacun y trouve son message. ");
                 $st = $this->getDB()->prepare($sql);
                 $st->bindParam(':movie_key', $movie_key, PDO::PARAM_INT);
                 $st->bindParam(':genre_key' . $key,  $value['id'], PDO::PARAM_INT);
-                $st->execute();
+                if (!$st->execute()){
+                    $this->getDB()->rollBack();
+                    return "faux";
+                }
             }
 
             foreach ($acteurs as $key => $value) {
@@ -177,7 +186,10 @@ je vous laisse le découvrir car chacun y trouve son message. ");
                 $st = $this->getDB()->prepare($sql);
                 $st->bindParam(':acteur_key' . $key, $value['id'], PDO::PARAM_INT);
                 $st->bindParam(':nom_acteur' . $key, $value['name'], PDO::PARAM_STR);
-                $st->execute();
+                if (!$st->execute()){
+                    $this->getDB()->rollBack();
+                    return "faux";
+                }
 
                 $sql = 'INSERT INTO Jouer (api_acteur_id, api_movie_id) 
                         SELECT :acteur_key' . $key . ', :movie_key
@@ -187,7 +199,10 @@ je vous laisse le découvrir car chacun y trouve son message. ");
                 $st = $this->getDB()->prepare($sql);
                 $st->bindParam(':movie_key', $movie_key, PDO::PARAM_INT);
                 $st->bindParam(':acteur_key' . $key, $value['id'], PDO::PARAM_INT);
-                $st->execute();
+                if (!$st->execute()){
+                    $this->getDB()->rollBack();
+                    return "faux";
+                }
             }
 
             $sql = 'INSERT INTO Noter (login_, api_movie_id, note, commentaire) 
@@ -200,12 +215,16 @@ je vous laisse le découvrir car chacun y trouve son message. ");
             $st->bindParam(':login_', $login_, PDO::PARAM_STR);
             $st->bindParam(':note', $note, PDO::PARAM_INT);
             $st->bindParam(':commentaire', $commentaire, PDO::PARAM_STR);
-            $st->execute();
+            if (!$st->execute()){
+                $this->getDB()->rollBack();
+                return "faux";
+            }
 
             $this->getDB()->commit();
-        } catch (Exception $e) {
+            return "vrai";
+        } catch (PDOException $e) {
             $this->getDB()->rollBack();
-            echo "Failed: " . $e->getMessage() . 'À la ligne ' . $e->getLine();
+            return "faux";
         }
     }
 
