@@ -17,9 +17,9 @@ class Navbar {
         if (isset($_GET['deco'])) {
             session_destroy();
             if ($chemin_actu != "pages") {
-                header("Location: ./index.php");
+                header("Location: ../login.php");
             } else {
-                header("Location: ../index.php");
+                header("Location: ./login.php");
             }
             exit;
         }

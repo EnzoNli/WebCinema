@@ -1,5 +1,6 @@
 <?php
 
+include_once("../include/disallowGuest.php");
 include_once("../include/fcs_api.php");
 include_once("../include/fcs_bd.php");
 include_once("../include/formulaire.php");
