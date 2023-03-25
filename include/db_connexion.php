@@ -20,13 +20,15 @@ class ConnexionDB
                 $st->execute(array("Zoze", password_hash("abricot", PASSWORD_DEFAULT)));
                 $this->db = $db;
 
-                $this->noter_un_film("TotorLeCastor", 315162, 5, "J'ai passé un excellent moment
+                $f = json_encode(getMovie(315162), true);
+
+                $this->noter_un_film("TotorLeCastor",$f, 5, "J'ai passé un excellent moment
 Les personnages sont haut en couleur et tous charismatiques. Bon choix.
 L'animation est terrible surtout les combats qui sont ultra dynamiques (on sent l'influence japonaise)." );
-                $this->noter_un_film("Enzo", 315162, 5, "Un film incroyablement beau et très drôle ! Cela faisait très longtemps, pour ma part, que je n'avais pas autant rigolé dans une salle de cinéma ! 
+                $this->noter_un_film("Enzo", $f, 5, "Un film incroyablement beau et très drôle ! Cela faisait très longtemps, pour ma part, que je n'avais pas autant rigolé dans une salle de cinéma ! 
 Juste époustouflant les graphismes et un scénario très très bien mené ! Je vous conseille vivement d'aller le voir !");
-                $this->noter_un_film("Zoze", 315162, 5, "Ce film est une pure merveille. On en prend plein les yeux du début à la fin. Tout est très bien rythmé. Vous n'allez pas être déçu ! ");
-
+                $this->noter_un_film("Zoze", $f, 5, "Ce film est une pure merveille. On en prend plein les yeux du début à la fin. Tout est très bien rythmé. Vous n'allez pas être déçu ! ");
+/*
                 $this->noter_un_film("Enzo", 299536, 4, "Avengers : Infinity War est un incroyable spectacle qui devrait laisser tous les fans de Marvel bouche bée devant le travail effectué par Joe et Anthony Russo.");
                 $this->noter_un_film("Zoze", 299536, 3, "Un spectacle visuel impeccable, mais sans surprises. ");
 
@@ -82,7 +84,7 @@ Et la fin est très émouvante et conclu avec brio les sujets du film : l’amou
 Et puis, les personnages sont attachants car on aimées les suives dans leur aventure. 
 Et bien sur, il y a toujours le petit message de fonds (comme dans tous les Miyazaki) : 
 je vous laisse le découvrir car chacun y trouve son message. ");
-
+*/
             } catch (PDOException $e) {
                 echo $e->getMessage();
             }
@@ -126,8 +128,10 @@ je vous laisse le découvrir car chacun y trouve son message. ");
         return $this->db;
     }
 
-    function noter_un_film($login_, $movie_key, $note, $commentaire) {
-        $film = json_decode(getMovie($movie_key), true);
+    function noter_un_film($login_, $json, $note, $commentaire) {
+        $film = json_decode($json, true);
+        var_dump($film);
+        $movie_key = $film['id'];
         $titre_film = $film['title'];
         $date_sortie = $film['release_date'];
         $genres = $film['genres'];
