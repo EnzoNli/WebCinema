@@ -13,6 +13,7 @@ function afficher_entete($css) {
         <link rel="icon" type="../image/png" href="../images/logo.png" />
         <link rel="stylesheet" href="' . $css . '">
         <script src="../js/jquery.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     </head>
 
     <body>
