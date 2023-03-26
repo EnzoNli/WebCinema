@@ -12,11 +12,11 @@ function afficher_note($note, $bdOuApi) {
     $ch .= '<p class="texte_note">Note de ' . $bdOuApi . ' : <span>
     ';
     for ($i = 0; $i < $nb_etoiles; $i++) {
-        $ch .= '<img class="etoile" src="../images/etoile.png" alt="étoile jaune"></img>
+        $ch .= '<img class="etoile" src="../images/etoile.png" alt="étoile jaune">
         ';
     }
     for ($i = 0; $i < 5 - $nb_etoiles; $i++) {
-        $ch .= '<img class="etoile" src="../images/etoilevide.png" alt="étoile grise"></img>
+        $ch .= '<img class="etoile" src="../images/etoilevide.png" alt="étoile grise">
         ';
     }
     $ch .= ' ' . $note;

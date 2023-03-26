@@ -25,13 +25,9 @@ if (isset($_POST['submit'])) {
   }
 }
 
-
-
 afficher_entete("../css/login.css");
 
 ?>
-<header>
-</header>
 <main>
   <h1>Connexion</h1>
   <?php if (isset($error)) {

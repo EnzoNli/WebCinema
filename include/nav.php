@@ -41,7 +41,7 @@ class Navbar {
         echo "
         <header>
         <link rel=\"stylesheet\" href=\"" . $remplacement1 . "css/nav.css\">
-        <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css\" />
+        <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css\" >
         <nav class=\"sticky\">
             <div class=\"logo\">
                 Le Cinéma des Zous
@@ -49,9 +49,9 @@ class Navbar {
         if (!empty($this->username)) {
             echo "
             <div class=\"nav-items\">
-                <li><a href=\"" . $remplacement1 . "index.php\">Accueil</a></li>
-                <li><a href=\"" . $remplacement2 . "recherche_bd.php\">Films notés</a></li>
-                <li><a href=\"" . $remplacement2 . "recherche_api.php\">Recherche avancée</a></li>
+                <div class=\"li\"><a href=\"" . $remplacement1 . "index.php\">Accueil</a></div>
+                <div class=\"li\"><a href=\"" . $remplacement2 . "recherche_bd.php\">Films notés</a></div>
+                <div class=\"li\"><a href=\"" . $remplacement2 . "recherche_api.php\">Recherche avancée</a></div>
             </div>
 
             <form action=\"#\">

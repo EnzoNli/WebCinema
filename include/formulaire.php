@@ -4,18 +4,18 @@ include_once("db_connexion.php");
 $connexion = new ConnexionDB("../database");
 
 function afficher_form() {
-    $chaine = '<form action="" method="post" id="db_form">
+    $chaine = '<form method="post" id="db_form">
     ';
     $chaine .= afficher_select_trier();
     $chaine .= '<div class="entrees">
-                <label for="genre">Entrer un mot-clef du titre</label>
+                <label for="titre">Entrer un mot-clef du titre</label>
                 <br>
                 <input type="text" name="titre" id="titre" placeholder="Titre de film">
                 </div>
     ';
     $chaine .= afficher_select_genre();
     $chaine .= '<div class="entrees">
-                <label for="genre">Entrer un nom d\'acteur</label>
+                <label for="acteur">Entrer un nom d\'acteur</label>
                 <br>
                 <input type="text" name="acteur" id="acteur" placeholder="Acteur">
                 </div>
@@ -196,7 +196,7 @@ function afficher_select_trier_api() {
     return $chaine;
 }
 function afficher_form_api() {
-    $chaine = '<form action="" method="post" id="api_form">
+    $chaine = '<form method="post" id="api_form">
     ';
     $chaine .= afficher_select_trier_api();
     $chaine .= '<div class="entrees">
@@ -206,14 +206,13 @@ function afficher_form_api() {
                 </div>
     ';
     $chaine .= afficher_select_genre_api();
-    $chaine .= '<label for="year">Année de sortie entre</label><br>
+    $chaine .= '<label for="debut">Année de sortie entre</label><br>
     ';
     $chaine .= afficher_select_annee("debut");
     $chaine .= '<span> et </span>';
     $chaine .= afficher_select_annee("fin");
-    $chaine .= '<input style="margin-top:5vh" type="submit" value="Afficher les résultats" />';
+    $chaine .= '<input style="margin-top:5vh" type="submit" value="Afficher les résultats" >';
     $chaine .= '
-            </div>
             </form>
     ';
     return $chaine;
