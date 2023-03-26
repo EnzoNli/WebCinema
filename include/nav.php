@@ -74,7 +74,7 @@ class Navbar {
         } else {
             echo "
             <div class=\"nav-items\">
-                <li style=\"color: white\">Connectez vous pour accèder aux fonctionnalités du site</li>
+                <p style=\"color: white\">Connectez vous pour accèder aux fonctionnalités du site</p>
             </div>
             <div class=\"dropdown-perso\">
                 <button class=\"dropbtn-perso\">Invité <i class=\"fa fa-caret-down\"></i></button>
