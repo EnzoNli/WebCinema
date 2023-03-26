@@ -30,8 +30,7 @@ $nav->afficheNavbar(); ?>
     if ($infos_film['vote_count']) {
         echo afficher_note(round(floatval($infos_film['vote_average']) / 2, 2), "l'API");
     } else {
-        $note_api = "--";
-        $ch .= afficher_pas_note($note_api, "l'API");
+        echo afficher_pas_note("--", "l'API");
     }
     echo "</div>";
     ?>
