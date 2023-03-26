@@ -39,6 +39,7 @@ class Navbar {
         $remplacement1 = ($this->chemin_actu == "pages") ? ("../") : ("");
         $remplacement2 = ($this->chemin_actu == "pages") ? ("") : ("pages/");
         echo "
+        <header>
         <link rel=\"stylesheet\" href=\"" . $remplacement1 . "css/nav.css\">
         <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css\" />
         <nav class=\"sticky\">
@@ -83,7 +84,7 @@ class Navbar {
             </div>";
         }
 
-        echo "</nav>";
+        echo "</nav> </header>";
         $this->activeRechercheAPI();
     }
 

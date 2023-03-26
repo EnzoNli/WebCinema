@@ -18,7 +18,7 @@ function afficher_entete($css) {
 
     <body>
     ';
-    return $ch;
+    echo $ch;
 }
 
 function afficher_pied() {
@@ -26,5 +26,5 @@ function afficher_pied() {
     </body>
     </html>
     ';
-    return $ch;
+    echo $ch;
 }

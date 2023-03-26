@@ -9,13 +9,10 @@ include_once("../include/base_html.php");
 include_once("../include/nav.php");
 $nav = new Navbar("pages");
 
-echo afficher_entete("../css/liste_film.css");
+afficher_entete("../css/liste_film.css");
 
+$nav->afficheNavbar(); ?>
 
-?>
-<header>
-    <?php $nav->afficheNavbar(); ?>
-</header>
 <main>
     <div id="formDB">
         <h1>Recherche API</h1>

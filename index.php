@@ -19,9 +19,7 @@ $nav = new Navbar("");
 
 <body>
 
-    <header>
-        <?php $nav->afficheNavbar(); ?>
-    </header>
+    <?php $nav->afficheNavbar(); ?>
     <main>
         <?php include_once("include/slider.php"); ?>
     </main>
