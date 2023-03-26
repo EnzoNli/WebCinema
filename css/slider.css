@@ -24,6 +24,7 @@ a {
 
 .slider-container {
   padding: 0 10vw;
+  height: 82vh;
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
