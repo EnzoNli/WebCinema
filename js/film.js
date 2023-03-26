@@ -26,13 +26,19 @@ function createPopup(isSuccess, message){
 
 
     $("#popup-container").html(res);
+    $(".overlay").css("display", "block");
     
     if(!isSuccess){
         $("#logo").css("color", "#f12222");
     }
+
+
     $(".close-btn").click(function(){
         $("#popup-container").html("");
-        location.reload();
+        $(".overlay").css("display", "none");
+        if(isSuccess){
+            location.reload();
+        }
     });
 }
 
@@ -56,28 +62,34 @@ function executeRating(stars) {
 
 executeRating(ratingStars);
 
+var locked = false;
+
 $("#sub").submit(function(event) {
     var numItems = $('.fas').length
     var comment = $('textarea#com').val();
     event.preventDefault();
-    jQuery.ajax({
-        type: "POST",
-        url: "../include/requeteAjaxJs.php",
-        data: {
-            functionname: 'noteFilm',
-            arguments: [nom_utilisateur, id_movie, numItems, comment]
-        }
-    }).done(function(reponse) {
-        switch (reponse) {
-            case "0":
-                createPopup(true, "Le commentaire a bien été pris en compte");
-                break;
-            case "23000":
-                createPopup(false, "Vous avez déjà noté ce film !");
-                break;
-            default:
-                createPopup(false, "Oups ! Quelque chose s'est mal passé !");
-                break;
-        }
-    });
+    if(!locked){
+        locked = true;
+        jQuery.ajax({
+            type: "POST",
+            url: "../include/requeteAjaxJs.php",
+            data: {
+                functionname: 'noteFilm',
+                arguments: [nom_utilisateur, id_movie, numItems, comment]
+            }
+        }).done(function(reponse) {
+            switch (reponse) {
+                case "0":
+                    createPopup(true, "Le commentaire a bien été pris en compte");
+                    break;
+                case "23000":
+                    createPopup(false, "Vous avez déjà noté ce film !");
+                    break;
+                default:
+                    createPopup(false, "Oups ! Quelque chose s'est mal passé !");
+                    break;
+            }
+            locked = false;
+        });
+    }
 });
