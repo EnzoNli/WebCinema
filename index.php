@@ -1,5 +1,4 @@
 <?php
-include_once("include/disallowGuest.php");
 include_once("include/nav.php");
 include_once("include/base_html.php");
 $nav = new Navbar("");
