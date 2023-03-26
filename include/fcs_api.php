@@ -72,6 +72,7 @@ function requeteCurl($url) {
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_code != intval(200)) {
                 curl_close($ch);
+                header("Location: ./404.php");
                 throw new Exception("Mauvaise requete");
             } else {
                 curl_close($ch);

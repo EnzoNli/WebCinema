@@ -23,11 +23,16 @@ $nav->afficheNavbar(); ?>
     if (boolFilmExiste($infos_film['id'])) {
         echo afficher_note(round(floatval(getMoyenne($infos_film['id'])), 2), "la BD");
     } else {
-        echo afficher_note(0, "la BD");
+        echo afficher_pas_note("--", "la BD");
     }
     echo "</div>";
     echo "<div id=\"note_api\">";
-    echo afficher_note(round(floatval($infos_film['vote_average']) / 2, 2), "l'API");
+    if ($infos_film['vote_count']) {
+        echo afficher_note(round(floatval($infos_film['vote_average']) / 2, 2), "l'API");
+    } else {
+        $note_api = "--";
+        $ch .= afficher_pas_note($note_api, "l'API");
+    }
     echo "</div>";
     ?>
     <p id="synopsis"><?php echo $infos_film['overview'] ?></p>
