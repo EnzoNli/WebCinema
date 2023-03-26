@@ -65,6 +65,8 @@ echo afficher_entete("../css/film.css");
         ?>
     </div>
 
+    <div class="overlay"></div>
+
     <script type="text/javascript">
         // passage en parametre pour requete ajax (noter un film) dans film.js
         var nom_utilisateur = "<?php echo $_SESSION['username']; ?>";
